@@ -18,7 +18,10 @@ import EditModal from './save_button';
 import Fab from '@material-ui/core/Fab';
 import ReactCardFlip from 'react-card-flip';
 import HorizontalLinearStepper from './stepper';
+import { green } from '@material-ui/core/colors';
 import BadgeAvatars from "./BadgeAvatar";
+import CustomizedInputs from "./Input";
+
 function TabPanel(props) {
     var [isFlipped, setFlipped] = useState(0)
     useEffect(()=>{
@@ -148,23 +151,51 @@ export default function SimpleTabs() {
                     justifyContent: "center"
                 }}>
                     <div>
+                        {/* <Card className={classes.root}
+                            variant="outlined"
+                            style={{ 
+                                marginBottom: "30px",
+                                
+                                border:"1px solid",
+                                borderColor:"#F28B66",
+                             }}
+                            >
+                            <CardContent>
+                            <Typography style={{ textAlign:"center", fontSize:"xx-large"  }} className={classes.title} color="textSecondary" gutterBottom>4 in ToDo</Typography>
+                            <Typography style={{ textAlign:"center",  }} className={classes.title} color="textSecondary" gutterBottom>This week objective goes here</Typography>
+                            <div style={{ display:"flex", marginTop:"15px" }}>
+                                <div style={{ margin:"10px" }}>
+                                <Typography style={{  }} className={classes.title} color="textSecondary" gutterBottom>Homework</Typography>
+                            <Typography style={{   }} className={classes.title} color="textSecondary" gutterBottom>3</Typography>
+                                </div>
+                            
+                                <div  style={{ margin:"10px" }}>
+                                <Typography style={{  }} className={classes.title} color="textSecondary" gutterBottom>Reading</Typography>
+                            <Typography style={{   }} className={classes.title} color="textSecondary" gutterBottom>1</Typography>
+                                </div>
+                                <div  style={{ margin:"10px" }}>
+                                <Typography style={{  }} className={classes.title} color="textSecondary" gutterBottom>Exercise</Typography>
+                            <Typography style={{   }} className={classes.title} color="textSecondary" gutterBottom>0</Typography>
+                                </div>
+                            </div>
+                            </CardContent>
+                        </Card> */}
                         {people.map(person => (
                             <Card
                                 className={classes.root}
                                 variant="outlined"
                                 style={{
                                 marginBottom: "30px",
-                                maxWidth: "600px",
-                                maxHeight: "400px",
-                                minWidth: "300px",
-                                minHeight: "100px"
+                            
+                                border:"1px solid",
+                                borderColor:"#F28B66",
+                    
                             }}>
-                                <CardContent>
-                                <TextField id="outlined-basic" label="Book Name" variant="outlined" />
+                                <CardContent style={{ display:"flex" }}>
+                                <Typography className={classes.title} color="textSecondary" gutterBottom>Word of the Day</Typography>
+                                <Typography className={classes.title} color="textSecondary" gutterBottom>p 33</Typography>
                                 </CardContent>
-                                <CardActions>
-                                    <EditModal size="small">Learn More</EditModal>
-                                </CardActions>
+                        
                             </Card>
                             
                             
@@ -188,6 +219,7 @@ export default function SimpleTabs() {
       </Fab>
       <Button  onClick={() => app.auth().signOut()}>LOG-OUT</Button>
                     </div>
+                <CustomizedInputs/>
                 </Container>
             </TabPanel>
             <TabPanel value={value} index={1}>

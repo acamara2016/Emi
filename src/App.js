@@ -9,6 +9,7 @@ import {
  import SignIn from './pages/SignIn';
  import SignUp from './pages/SignUp';
  import Home from './pages/Home';
+ import Landing from './pages/Landing';
 import { AuthProvider } from './pages/components/Authentication';
 import PasswordReset from './pages/PasswordReset';
 //  import PasswordReset from "./pages/PasswordReset";
@@ -22,7 +23,7 @@ function App(){
             <Route exact path="/sign-in" component={SignIn} />
             <Route exact path="/sign-up" component={SignUp} />
             <Route exact path="/reset-password" component={PasswordReset}/>
-            <Route exact path="/" component={Home}/>
+            <Route exact path="/" component={Landing}/>
             {/* <Route exact path="/sign-up" component={PasswordReset} /> */}
           </Switch>
         </Router>
