@@ -1,6 +1,8 @@
 import React, { useCallback} from "react";
 import { Link } from 'react-router-dom'
+import { withRouter, Redirect } from "react-router";
 import app from "./components/firebase";
+import writeUserData from './components/firebase';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -45,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function SignUp({history}) {
   const classes = useStyles();
+  
   const handleSignUp = useCallback(async event => {
     event.preventDefault();
     const { email, password } = event.target.elements;
@@ -52,6 +55,8 @@ export default function SignUp({history}) {
       await app
         .auth()
         .createUserWithEmailAndPassword(email.value, password.value);
+      writeUserData();
+      
       history.push("/");
     } catch (error) {
       alert(error);
@@ -130,9 +135,9 @@ export default function SignUp({history}) {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link to="/sign-in" variant="body2">
+              <Redirect to="/sign-in" variant="body2">
                 Already have an account? Sign in
-              </Link>
+              </Redirect>
             </Grid>
           </Grid>
         </form>

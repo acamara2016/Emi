@@ -3,8 +3,7 @@ import "firebase/auth";
 import "firebase/firestore";
 
 
-var db;
-const app = firebase.initializeApp ({
+const config = firebase.initializeApp ({
     apiKey: "AIzaSyD1gDP7SY5J5IXuHxqhIPGT_tXmWlpOfsI",
     authDomain: "emi-sweb.firebaseapp.com",
     databaseURL: "https://emi-sweb-default-rtdb.firebaseio.com",
@@ -14,9 +13,9 @@ const app = firebase.initializeApp ({
     appId: "1:54635582580:web:facba273a32b31d8d96d21",
     measurementId: "G-11B0SRBZB0"
   });
-
-export default app; 
-db = firebase.firestore(app);
+  firebase.initializeApp(config)
+  const db = firebase.firestore()
+export default db;
 
 export function getLogsByUser(){
 
@@ -39,12 +38,23 @@ export function getLogsByUser(){
   );
 };
 
+export function disconnect(){
+  
+  firebase.auth().signOut().then(() => {
+    // Sign-out successful.
+  }).catch((error) => {
+    // An error happened.
+  });
+  
+}
 
 
-export function writeUserData(){
-  db.collection("logs").doc("Bf3hwzwhhKNcRfjUoQBgLg2g4QR2").collection("logs")
-  .onSnapshot((doc) => {
-    console.log("Current data: ", doc.data());
-});
+
+export function writeUserData(email){
+  db.collection("logs").doc("Bf3hwzwhhKNcRfjUoQBgLg2g4QR2").set({
+    "email":email,
+    "uuid": firebase.auth().currentUser(),
+    "logs": []
+  })
  
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import SwipeableViews from "react-swipeable-views";
@@ -16,8 +16,6 @@ import { green } from "@material-ui/core/colors";
 import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
 import SimpleAccordion from "./Accordion";
-import Modal from "@material-ui/core/Modal";
-import FullScreenDialog from "./Full_screen_dialog";
 import Slide from "@material-ui/core/Slide";
 import Dialog from "@material-ui/core/Dialog";
 import Divider from "@material-ui/core/Divider";
@@ -28,6 +26,8 @@ import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import IconButton from "@material-ui/core/IconButton";
 import Toolbar from "@material-ui/core/Toolbar";
+import db from './firebase';
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -148,12 +148,25 @@ export default function AnimatedTabs() {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+  const [user, setUser] = useState()
+  const [homeworkList, sethomeworkList] = useState();
+
+  useEffect(()=>{
+    createGroceryList("adama");
+  })
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+  const createGroceryList = (userName) => {
+    return db.collection('homework_list')
+        .add({
+            created: db.app.firestore.FieldValue.serverTimestamp(),
+            users: [{ name: userName}]
+        });
   };
 
   const handleChangeIndex = (index) => {
@@ -180,7 +193,6 @@ export default function AnimatedTabs() {
       className: classes.fab,
       icon: <AddIcon />,
       label: "Add",
-      onclick: { handleClickOpen },
     },
     {
       color: "secondary",
@@ -196,8 +208,6 @@ export default function AnimatedTabs() {
     },
   ];
   var myCurrentDate = new Date();
-  // +' '+ myCurrentDate.getHours()+':'+ myCurrentDate.getMinutes()+':'+
-  // myCurrentDate.getSeconds(
   var date =
     myCurrentDate.getFullYear() +
     "/" +
