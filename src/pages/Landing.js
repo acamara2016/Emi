@@ -21,11 +21,14 @@ export default class Landing extends React.Component {
   render() {
 
     return (
-      <div>
+      <div style={{ 
+        height: "100vh",
+        position: "absolute",
+        left: "0",
+        width: "100%",
+        overflow: "hidden",
+       }}>
         <AnimatedTabs/>
-        <Button variant="contained" color="primary">
-        Disconnect
-      </Button>
       </div>
       
     );

@@ -29,6 +29,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import {firestore} from './firebase';
 import auth from './firebase';
 import firebase from "firebase/app";
+import Weekly from './Weekly';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -82,71 +83,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AnimatedTabs() {
-  // const d1 = [];
-  // const d2 = [];
-  // const d3 = [];
-  // const d4 = [];
-  // const d5 = [];
-  // const d6 = [];
-  // const d7 = [];
-  const data = [
-    {
-      date: "7",
-      subject: "Subject 01",
-      page_number: "33",
-      time: "60",
-      feedback: "1",
-      state: "first",
-    },
-    {
-      date: "8",
-      subject: "Subject 02",
-      page_number: "33",
-      time: "60",
-      feedback: "2",
-      state: "",
-    },
-    {
-      date: "9",
-      subject: "Subject 03",
-      page_number: "33",
-      time: "60",
-      feedback: "3",
-      state: "",
-    },
-    {
-      date: "7",
-      subject: "Subject 04",
-      page_number: "33",
-      time: "60",
-      feedback: "1",
-      state: "first",
-    },
-    {
-      date: "12",
-      subject: "Subject 05",
-      page_number: "33",
-      time: "60",
-      feedback: "1",
-      state: "",
-    },
-    {
-      date: "11",
-      subject: "Subject 06",
-      page_number: "33",
-      time: "60",
-      feedback: "1",
-      state: "",
-    },
-    {
-      date: "10",
-      subject: "Subject 07",
-      page_number: "33",
-      time: "60",
-      feedback: "1",
-      state: "",
-    },
-  ];
+
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -159,9 +96,7 @@ export default function AnimatedTabs() {
   const [d6, setd6] = useState([]);
   const [d7, setd7] = useState([]);
   const [d8, setd8] = useState([]);
-  var arr = Array.from(Array(8), () => new Array(6));
-  //arr[0][0] = 'foo';
-  console.info(arr);
+
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -181,43 +116,7 @@ export default function AnimatedTabs() {
             time: time,
         });
   };
-  const getLogs = () =>{
-    const user = firebase.auth().currentUser;
-    let list =[];
-    homeworkList = [];
-    firestore.collection("users").doc(user.uid).collection("logs").get().then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-          
-          sethomeworkList([...homeworkList,
-            {
-              "id":doc.id,
-              "full_date":doc.data().date.toDate(),
-              "date":doc.data().date.toDate().getDate(),
-              "note":doc.data().note,
-              "subject":doc.data().subject,
-              "time":doc.data().time,
-              "feedback":doc.data().feedback
-            }
-          ])
-      });  
-    });
-  }
-  const updaeLog = (logID, subject, page_number, feedback, time)=>{
-    const user = firebase.auth().currentUser
-    var curr = new Date();
-    firestore.collection("users").doc(user.uid).collection("logs").doc(logID).update({
-      "date": curr,
-      "subject" : subject,
-      "page_number": page_number,
 
-      "feedback" : feedback,
-      "time": time,
-    })
-  }
-  const getUserID = () =>{
-    const user = firebase.auth().currentUser
-    console.log(user)
-  }
 
   const handleChangeIndex = (index) => {
     setValue(index);
@@ -257,34 +156,14 @@ export default function AnimatedTabs() {
       label: "Expand",
     },
   ];
-  var myCurrentDate = new Date();
-  var date =
-    myCurrentDate.getFullYear() +
-    "/" +
-    (myCurrentDate.getMonth() + 1) +
-    "/" +
-    myCurrentDate.getDate();
-  const newCurrentDate = "Current Date and Time: " + date;
-  var curr = new Date(); // get current date
-  var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
-
-  var day1 = first + 1;
-  var day2 = first + 2;
-  var day3 = first + 3;
-  var day4 = first + 4;
-  var day5 = first + 5;
-  var last = first + 6; // last day is the first day + 6
+  
 
   useEffect(()=>{
-    // addLog("adama");
-    
-    getUserID();
-    getLogs();
   
   }, [])
 
   return (
-    <div style={{ backgroundColor: "#F2DC99" }} className={classes.root}>
+    <div style={{ backgroundColor: "#F2DC99",  height: "100vh", }} className={classes.root}>
       <AppBar position="static" color="default">
         <Tabs
           value={value}
@@ -328,193 +207,9 @@ export default function AnimatedTabs() {
               defaultValue="Ganbare"
               variant="outlined"
             />
-            <div
-              style={{
-                margin: "20px",
-              }}
-              id="daily_list_container"
-            >
-            {homeworkList.map((log)=>{
-              console.log(log);
-              
-            })}
-              {homeworkList.map((d) => {
-                {
-                  if (d.date == "" + first) {
-                    console.log("adding d into d0")
-                    d1.push({
-                      id: d.id,
-                      date: d.date,
-                      subject: d.subject,
-                      page_number: d.page_number,
-                      note:d.note,
-                      time: d.time,
-                      feedback: d.feedback,
-                      state: d.state
-                    });
-                  } else if (d.date == "" + day1) {
-                    console.log("adding d into d1")
-                    d2.push({
-                      id: d.id,
-                      date: d.date,
-                      subject: d.subject,
-                      page_number: d.page_number,
-                      note:d.note,
-                      time: d.time,
-                      feedback: d.feedback,
-                      state: d.state
-                    });
-                  } else if (d.date == "" + day2) {
-                    console.log("adding d into d2")
-                    d3.push({
-                      id: d.id,
-                      date: d.date,
-                      subject: d.subject,
-                      page_number: d.page_number,
-                      note:d.note,
-                      time: d.time,
-                      feedback: d.feedback,
-                      state: d.state
-                    });
-                  } else if (d.date == "" + day3) {
-                    console.log("adding d into d3")
-                    d4.push({
-                      id: d.id,
-                      date: d.date,
-                      subject: d.subject,
-                      page_number: d.page_number,
-                      note:d.note,
-                      time: d.time,
-                      feedback: d.feedback,
-                      state: d.state
-                    });
-                  } else if (d.date == "" + day4) {
-                    console.log("adding d into d4")
-                    d5.push({
-                      id: d.id,
-                      date: d.date,
-                      subject: d.subject,
-                      page_number: d.page_number,
-                      note:d.note,
-                      time: d.time,
-                      feedback: d.feedback,
-                      state: d.state
-                    });
-                  } else if (d.date == "" + day5) {
-                    console.log("adding d into d5")
-                    d6.push({
-                      id: d.id,
-                      date: d.date,
-                      subject: d.subject,
-                      page_number: d.page_number,
-                      note:d.note,
-                      time: d.time,
-                      feedback: d.feedback,
-                      state: d.state
-                    });
-                  } else if (d.date == "" + last) {
-                    console.log("adding d into d6")
-                    d7.push({
-                      id: d.id,
-                      date: d.date,
-                      subject: d.subject,
-                      page_number: d.page_number,
-                      note:d.note,
-                      time: d.time,
-                      feedback: d.feedback,
-                      state: d.state
-                    });
-                  }
+            <Weekly/>
 
-            
-                }
-                //return (single_log(d.date,d.subject,d.page_number,d.time,d.feedback))
-              })}
-              <Typography>{first} {d1.length}Homework</Typography>
-              {d1.map((d) => {
-                return single_log(
-                  d.id,
-                  d.date,
-                  d.subject,
-                  d.page_number,
-                  d.time,
-                  d.feedback,
-                  d.note
-                );
-              })}
-               <Typography>{day1} {d2.length}Homework</Typography>
-              {d2.map((d) => {
-                return single_log(
-                  d.id,
-                  d.date,
-                  d.subject,
-                  d.page_number,
-                  d.time,
-                  d.feedback,
-                  d.note
-                );
-              })}
-               <Typography>{day2} {d3.length}Homework</Typography>
-              {d3.map((d) => {
-                return single_log(
-                  d.id,
-                  d.date,
-                  d.subject,
-                  d.page_number,
-                  d.time,
-                  d.feedback,
-                  d.note
-                );
-              })}
-               <Typography>{day3} {d4.length}Homework</Typography>
-              {d4.map((d) => {
-                return single_log(
-                  d.id,
-                  d.date,
-                  d.subject,
-                  d.page_number,
-                  d.time,
-                  d.feedback,
-                  d.note
-                );
-              })}
-               <Typography>{day4} {d5.length}Homework</Typography>
-              {d5.map((d) => {
-                return single_log(
-                  d.id,
-                  d.date,
-                  d.subject,
-                  d.page_number,
-                  d.time,
-                  d.feedback,
-                  d.note
-                );
-              })}
-               <Typography>{day5} {d6.length}Homework</Typography>
-              {d6.map((d) => {
-                return single_log(
-                  d.id,
-                  d.date,
-                  d.subject,
-                  d.page_number,
-                  d.time,
-                  d.feedback,
-                  d.note
-                );
-              })}
-               <Typography>{last} {d7.length}Homework</Typography>
-              {d7.map((d) => {
-                return single_log(
-                  d.id,
-                  d.date,
-                  d.subject,
-                  d.page_number,
-                  d.time,
-                  d.feedback,
-                  d.note
-                );
-              })}
-            </div>
+           
           </div>
         </TabPanel>
         <TabPanel
@@ -552,35 +247,7 @@ export default function AnimatedTabs() {
               }}
               id="daily_list_container"
             >
-              {homeworkList.map((d) => {
-                {
-                  console.log(
-                    "Start day :" +
-                      first +
-                      " with " +
-                      d.date +
-                      " Last day: " +
-                      last
-                  );
-
-                  if (d.date === "" + curr.getDate()) {
-                    return (
-                      <div>
-                        <p>{d.date}</p>
-                        {single_log(
-                          d.id,
-                          d.date,
-                          d.subject,
-                          d.page_number,
-                          d.time,
-                          d.feedback,
-                          d.note
-                        )}
-                      </div>
-                    );
-                  }
-                }
-              })}
+          
             </div>
           </div>
         </TabPanel>
