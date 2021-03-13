@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 
@@ -13,13 +13,17 @@ const config = firebase.initializeApp ({
     appId: "1:54635582580:web:facba273a32b31d8d96d21",
     measurementId: "G-11B0SRBZB0"
   });
-  firebase.initializeApp(config)
-  const db = firebase.firestore()
-export default db;
+  if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+  }
+  
+  const auth = firebase.auth();
+  export default auth;
+  export const firestore = firebase.firestore();
 
 export function getLogsByUser(){
 
-  var docRef = db.collection("users").doc("Bf3hwzwhhKNcRfjUoQBgLg2g4QR2").collection("logs");
+  var docRef = firestore.collection("users").doc("Bf3hwzwhhKNcRfjUoQBgLg2g4QR2").collection("logs");
   docRef.get().then((doc) =>{
     if (doc.exists) {
       console.log("Document data:", doc.data());
@@ -51,7 +55,7 @@ export function disconnect(){
 
 
 export function writeUserData(email){
-  db.collection("logs").doc("Bf3hwzwhhKNcRfjUoQBgLg2g4QR2").set({
+  firestore.collection("logs").doc("Bf3hwzwhhKNcRfjUoQBgLg2g4QR2").set({
     "email":email,
     "uuid": firebase.auth().currentUser(),
     "logs": []

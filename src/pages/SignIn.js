@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react'; // add {useCallback, useContext}
 import { withRouter, Redirect } from "react-router";
-import app from "./components/firebase";
+import auth from "./components/firebase";
 import { AuthContext } from "./components/Authentication";
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -55,8 +55,7 @@ export default function SignIn({history}) {
       event.preventDefault();
       const { email, password } = event.target.elements;
       try {
-        await app
-          .auth()
+        await auth
           .signInWithEmailAndPassword(email.value, password.value);
         history.push("/");
       } catch (error) {

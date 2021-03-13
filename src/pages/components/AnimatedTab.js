@@ -26,7 +26,9 @@ import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import IconButton from "@material-ui/core/IconButton";
 import Toolbar from "@material-ui/core/Toolbar";
-import db from './firebase';
+import {firestore} from './firebase';
+import auth from './firebase';
+import firebase from "firebase/app";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -80,13 +82,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AnimatedTabs() {
-  const d1 = [];
-  const d2 = [];
-  const d3 = [];
-  const d4 = [];
-  const d5 = [];
-  const d6 = [];
-  const d7 = [];
+  // const d1 = [];
+  // const d2 = [];
+  // const d3 = [];
+  // const d4 = [];
+  // const d5 = [];
+  // const d6 = [];
+  // const d7 = [];
   const data = [
     {
       date: "7",
@@ -148,12 +150,18 @@ export default function AnimatedTabs() {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
-  const [user, setUser] = useState()
-  const [homeworkList, sethomeworkList] = useState();
-
-  useEffect(()=>{
-    createGroceryList("adama");
-  })
+  const [homeworkList, sethomeworkList] = useState([]);
+  const [d1, setd1] = useState([]);
+  const [d2, setd2] = useState([]);
+  const [d3, setd3] = useState([]);
+  const [d4, setd4] = useState([]);
+  const [d5, setd5] = useState([]);
+  const [d6, setd6] = useState([]);
+  const [d7, setd7] = useState([]);
+  const [d8, setd8] = useState([]);
+  var arr = Array.from(Array(8), () => new Array(6));
+  //arr[0][0] = 'foo';
+  console.info(arr);
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -161,13 +169,55 @@ export default function AnimatedTabs() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const createGroceryList = (userName) => {
-    return db.collection('homework_list')
+  const addLog = (subject, page_number, feedback, time) => {
+    const user = firebase.auth().currentUser;
+    var curr = new Date();
+    return firestore.collection('users').doc(user.uid).collection('logs')
         .add({
-            created: db.app.firestore.FieldValue.serverTimestamp(),
-            users: [{ name: userName}]
+            date: curr,
+            subject : subject,
+            page_number: page_number,
+            feedback : feedback,
+            time: time,
         });
   };
+  const getLogs = () =>{
+    const user = firebase.auth().currentUser;
+    let list =[];
+    homeworkList = [];
+    firestore.collection("users").doc(user.uid).collection("logs").get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+          
+          sethomeworkList([...homeworkList,
+            {
+              "id":doc.id,
+              "full_date":doc.data().date.toDate(),
+              "date":doc.data().date.toDate().getDate(),
+              "note":doc.data().note,
+              "subject":doc.data().subject,
+              "time":doc.data().time,
+              "feedback":doc.data().feedback
+            }
+          ])
+      });  
+    });
+  }
+  const updaeLog = (logID, subject, page_number, feedback, time)=>{
+    const user = firebase.auth().currentUser
+    var curr = new Date();
+    firestore.collection("users").doc(user.uid).collection("logs").doc(logID).update({
+      "date": curr,
+      "subject" : subject,
+      "page_number": page_number,
+
+      "feedback" : feedback,
+      "time": time,
+    })
+  }
+  const getUserID = () =>{
+    const user = firebase.auth().currentUser
+    console.log(user)
+  }
 
   const handleChangeIndex = (index) => {
     setValue(index);
@@ -225,6 +275,14 @@ export default function AnimatedTabs() {
   var day5 = first + 5;
   var last = first + 6; // last day is the first day + 6
 
+  useEffect(()=>{
+    // addLog("adama");
+    
+    getUserID();
+    getLogs();
+  
+  }, [])
+
   return (
     <div style={{ backgroundColor: "#F2DC99" }} className={classes.root}>
       <AppBar position="static" color="default">
@@ -276,70 +334,95 @@ export default function AnimatedTabs() {
               }}
               id="daily_list_container"
             >
-              {data.map((d) => {
+            {homeworkList.map((log)=>{
+              console.log(log);
+              
+            })}
+              {homeworkList.map((d) => {
                 {
                   if (d.date == "" + first) {
+                    console.log("adding d into d0")
                     d1.push({
+                      id: d.id,
                       date: d.date,
                       subject: d.subject,
                       page_number: d.page_number,
+                      note:d.note,
                       time: d.time,
                       feedback: d.feedback,
-                      state: d.state,
+                      state: d.state
                     });
                   } else if (d.date == "" + day1) {
+                    console.log("adding d into d1")
                     d2.push({
+                      id: d.id,
                       date: d.date,
                       subject: d.subject,
                       page_number: d.page_number,
+                      note:d.note,
                       time: d.time,
                       feedback: d.feedback,
-                      state: d.state,
+                      state: d.state
                     });
                   } else if (d.date == "" + day2) {
+                    console.log("adding d into d2")
                     d3.push({
+                      id: d.id,
                       date: d.date,
                       subject: d.subject,
                       page_number: d.page_number,
+                      note:d.note,
                       time: d.time,
                       feedback: d.feedback,
-                      state: d.state,
+                      state: d.state
                     });
                   } else if (d.date == "" + day3) {
+                    console.log("adding d into d3")
                     d4.push({
+                      id: d.id,
                       date: d.date,
                       subject: d.subject,
                       page_number: d.page_number,
+                      note:d.note,
                       time: d.time,
                       feedback: d.feedback,
-                      state: d.state,
+                      state: d.state
                     });
                   } else if (d.date == "" + day4) {
+                    console.log("adding d into d4")
                     d5.push({
+                      id: d.id,
                       date: d.date,
                       subject: d.subject,
                       page_number: d.page_number,
+                      note:d.note,
                       time: d.time,
                       feedback: d.feedback,
-                      state: d.state,
+                      state: d.state
                     });
                   } else if (d.date == "" + day5) {
+                    console.log("adding d into d5")
                     d6.push({
+                      id: d.id,
                       date: d.date,
                       subject: d.subject,
                       page_number: d.page_number,
+                      note:d.note,
                       time: d.time,
                       feedback: d.feedback,
-                      state: d.state,
+                      state: d.state
                     });
                   } else if (d.date == "" + last) {
+                    console.log("adding d into d6")
                     d7.push({
+                      id: d.id,
                       date: d.date,
                       subject: d.subject,
                       page_number: d.page_number,
+                      note:d.note,
                       time: d.time,
                       feedback: d.feedback,
-                      state: d.state,
+                      state: d.state
                     });
                   }
 
@@ -347,74 +430,88 @@ export default function AnimatedTabs() {
                 }
                 //return (single_log(d.date,d.subject,d.page_number,d.time,d.feedback))
               })}
-              <Typography>{first}</Typography>
+              <Typography>{first} {d1.length}Homework</Typography>
               {d1.map((d) => {
                 return single_log(
+                  d.id,
                   d.date,
                   d.subject,
                   d.page_number,
                   d.time,
-                  d.feedback
+                  d.feedback,
+                  d.note
                 );
               })}
-               <Typography>{day1}</Typography>
+               <Typography>{day1} {d2.length}Homework</Typography>
               {d2.map((d) => {
                 return single_log(
+                  d.id,
                   d.date,
                   d.subject,
                   d.page_number,
                   d.time,
-                  d.feedback
+                  d.feedback,
+                  d.note
                 );
               })}
-               <Typography>{day2}</Typography>
+               <Typography>{day2} {d3.length}Homework</Typography>
               {d3.map((d) => {
                 return single_log(
+                  d.id,
                   d.date,
                   d.subject,
                   d.page_number,
                   d.time,
-                  d.feedback
+                  d.feedback,
+                  d.note
                 );
               })}
-               <Typography>{day3}</Typography>
+               <Typography>{day3} {d4.length}Homework</Typography>
               {d4.map((d) => {
                 return single_log(
+                  d.id,
                   d.date,
                   d.subject,
                   d.page_number,
                   d.time,
-                  d.feedback
+                  d.feedback,
+                  d.note
                 );
               })}
-               <Typography>{day4}</Typography>
+               <Typography>{day4} {d5.length}Homework</Typography>
               {d5.map((d) => {
                 return single_log(
+                  d.id,
                   d.date,
                   d.subject,
                   d.page_number,
                   d.time,
-                  d.feedback
+                  d.feedback,
+                  d.note
                 );
               })}
-               <Typography>{day5}</Typography>
+               <Typography>{day5} {d6.length}Homework</Typography>
               {d6.map((d) => {
                 return single_log(
+                  d.id,
                   d.date,
                   d.subject,
                   d.page_number,
                   d.time,
-                  d.feedback
+                  d.feedback,
+                  d.note
                 );
               })}
-               <Typography>{last}</Typography>
+               <Typography>{last} {d7.length}Homework</Typography>
               {d7.map((d) => {
                 return single_log(
+                  d.id,
                   d.date,
                   d.subject,
                   d.page_number,
                   d.time,
-                  d.feedback
+                  d.feedback,
+                  d.note
                 );
               })}
             </div>
@@ -455,7 +552,7 @@ export default function AnimatedTabs() {
               }}
               id="daily_list_container"
             >
-              {data.map((d) => {
+              {homeworkList.map((d) => {
                 {
                   console.log(
                     "Start day :" +
@@ -471,11 +568,13 @@ export default function AnimatedTabs() {
                       <div>
                         <p>{d.date}</p>
                         {single_log(
+                          d.id,
                           d.date,
                           d.subject,
                           d.page_number,
                           d.time,
-                          d.feedback
+                          d.feedback,
+                          d.note
                         )}
                       </div>
                     );
@@ -554,7 +653,7 @@ export default function AnimatedTabs() {
   );
 }
 
-function single_log(date, subject, page_number, time, feedback, state) {
+function single_log(logID, date, subject, page_number, time, feedback, state, note) {
     
   return (
 
@@ -565,6 +664,8 @@ function single_log(date, subject, page_number, time, feedback, state) {
       page_number={page_number}
       time={time}
       feedback={feedback}
+      id={logID}
+      note={note}
     />
   );
 }

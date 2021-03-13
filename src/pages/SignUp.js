@@ -1,8 +1,8 @@
 import React, { useCallback} from "react";
 import { Link } from 'react-router-dom'
 import { withRouter, Redirect } from "react-router";
-import app from "./components/firebase";
-import writeUserData from './components/firebase';
+import auth from "./components/firebase";
+import {writeUserData} from './components/firebase';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -52,8 +52,7 @@ export default function SignUp({history}) {
     event.preventDefault();
     const { email, password } = event.target.elements;
     try {
-      await app
-        .auth()
+      await auth()
         .createUserWithEmailAndPassword(email.value, password.value);
       writeUserData();
       

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,  {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -8,6 +8,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
 import AccordionActions from '@material-ui/core/AccordionActions';
 import Button from '@material-ui/core/Button';
+import {firestore} from './firebase';
+import auth from './firebase';
+import firebase from "firebase/app";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,6 +24,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SimpleAccordion(props) {
   const classes = useStyles();
+  const [time, setTime] = useState("");
+
+
+  const updateLog = (logID, subject, page_number, feedback, time, note)=>{
+    const user = firebase.auth().currentUser
+    var curr = new Date();
+    firestore.collection("users").doc(user.uid).collection("logs").doc(logID).update({
+      "date": curr,
+      "subject" : subject,
+      "note":note,
+      "page_number": page_number,
+      "feedback" : feedback,
+      "time": time,
+    })
+  }
 
   return (
     <div style={{ margin:"10px" }} className={classes.root}>
@@ -33,13 +51,15 @@ export default function SimpleAccordion(props) {
           <Typography className={classes.heading}>{props.subject}</Typography>
           
         </AccordionSummary>
+        <form onSubmit={e => e.preventDefault()}>
         <AccordionDetails style={{ display:"grid" }}>
         <TextField
         style={{ marginBottom:"20px" }}
           id="filled-number"
-          label="Page Number"
+          label="Time (min)"
           type="number"
-          defaultValue="33"
+          defaultValue={props.time}
+          onChange={e => setTime(e.target.value)}
           InputLabelProps={{
             shrink: true,
           }}
@@ -47,11 +67,10 @@ export default function SimpleAccordion(props) {
         />
           <TextField
           id="outlined-multiline-static"
-          label="Multiline"
+          label="Note"
           multiline
           rows={4}
-          defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-          sit amet blandit leo lobortis eget."
+          defaultValue={props.note}
           variant="outlined"
           
         />
@@ -59,10 +78,12 @@ export default function SimpleAccordion(props) {
         </AccordionDetails>
         <AccordionActions>
           <Button size="small">Cancel</Button>
-          <Button size="small" color="primary">
+          {/* <Button onClick={updateLog(props.id,props.subject,"props.page_number",props.feedback, time, props.note)} size="small" color="primary">
             Update
-          </Button>
+          </Button> */}
         </AccordionActions>
+        </form>
+      
       </Accordion>
     </div>
   );
