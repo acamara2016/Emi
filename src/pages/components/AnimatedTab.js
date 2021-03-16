@@ -15,6 +15,7 @@ import UpIcon from "@material-ui/icons/KeyboardArrowUp";
 import { green } from "@material-ui/core/colors";
 import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
+import BadgeAvatars from './BadgeAvatar';
 import SimpleAccordion from "./Accordion";
 import Slide from "@material-ui/core/Slide";
 import Dialog from "@material-ui/core/Dialog";
@@ -26,6 +27,8 @@ import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import IconButton from "@material-ui/core/IconButton";
 import Toolbar from "@material-ui/core/Toolbar";
+import MailIcon from '@material-ui/icons/Mail';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 import {firestore} from './firebase';
 import auth from './firebase';
 import firebase from "firebase/app";
@@ -79,6 +82,19 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: green[600],
     },
+  },
+  
+}));
+
+const useStyles2 = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
   },
 }));
 
@@ -158,13 +174,24 @@ export default function AnimatedTabs() {
   ];
   
 
-  useEffect(()=>{
-  
-  }, [])
+
+
+  const classes2 = useStyles2();
+
 
   return (
-    <div style={{ backgroundColor: "#F2DC99",  height: "100vh", }} className={classes.root}>
+    <div style={{ backgroundColor: "#F2DC99", }} className={classes.root}>
       <AppBar position="static" color="default">
+      <Toolbar>
+          <IconButton edge="start" className={classes2.menuButton} color="inherit" aria-label="menu">
+            <BadgeAvatars />
+          </IconButton>
+          <Typography variant="h6" className={classes2.title}>
+            Website Name
+          </Typography>
+          <Button  color="inherit">pitaro0201@gmail.com</Button>
+        </Toolbar>
+
         <Tabs
           value={value}
           onChange={handleChange}
@@ -191,7 +218,7 @@ export default function AnimatedTabs() {
               alignContent: "center",
               justifyContent: "center",
               alignItems: "center",
-              height: "100%",
+           
             }}
           >
             <TextField
@@ -225,7 +252,7 @@ export default function AnimatedTabs() {
               alignContent: "center",
               justifyContent: "center",
               alignItems: "center",
-              height: "100%",
+            
             }}
           >
             <TextField
