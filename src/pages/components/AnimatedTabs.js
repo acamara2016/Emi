@@ -279,8 +279,7 @@ export default class AnimatedTabs extends React.Component{
               backgroundColor: "#F2DC99",
               alignContent: "center",
               justifyContent: "center",
-              alignItems: "center",
-              height: "100vh",
+              alignItems: "center"
             }}
           >
             <TextField

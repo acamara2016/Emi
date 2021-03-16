@@ -11,6 +11,7 @@ import {
  import Landing from './pages/Landing';
 import { AuthProvider } from './pages/components/Authentication';
 import PasswordReset from './pages/PasswordReset';
+import BottomAppBar from './pages/BottomAppBar';
 
 
 function App(){
@@ -22,7 +23,7 @@ function App(){
             <Route exact path="/sign-in" component={SignIn} />
             <Route exact path="/sign-up" component={SignUp} />
             <Route exact path="/reset-password" component={PasswordReset}/>
-            <Route exact path="/" component={Landing}/>
+            <Route exact path="/" component={BottomAppBar}/>
           </Switch>
         </Router>
       </AuthProvider>
