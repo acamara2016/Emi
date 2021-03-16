@@ -22,7 +22,6 @@ export default class Landing extends React.Component {
 
     return (
       <div style={{ 
-        backgroundColor: "#F2DC99",
         position: "absolute",
         left: "0",
         width: "100%",
