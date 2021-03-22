@@ -26,6 +26,7 @@ import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import IconButton from "@material-ui/core/IconButton";
 import Toolbar from "@material-ui/core/Toolbar";
+import backgroundImg from '../components/imgs/blackboard.jpg'
 import {firestore} from './firebase';
 import auth from './firebase';
 import firebase from "firebase/app";
@@ -252,7 +253,7 @@ export default class AnimatedTabs extends React.Component{
   }
 
     return(
-      <div style={{ backgroundColor: "#F2DC99" }} className={classes.root}>
+      <div className={classes.root}>
       <AppBar position="static" color="default">
         <Tabs
           value={value}
@@ -276,7 +277,7 @@ export default class AnimatedTabs extends React.Component{
           <div
             style={{
               display: "grid",
-              backgroundColor: "#F2DC99",
+              backgroundImage: `URL(${backgroundImg})` ,
               alignContent: "center",
               justifyContent: "center",
               alignItems: "center"
@@ -493,7 +494,7 @@ export default class AnimatedTabs extends React.Component{
           <div
             style={{
               display: "grid",
-              backgroundColor: "#F2DC99",
+              backgroundImage: `URL(${backgroundImg})`,
               alignContent: "center",
               justifyContent: "center",
               alignItems: "center",

@@ -15,6 +15,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import Avatar from '@material-ui/core/Avatar';
 import MenuIcon from '@material-ui/icons/Menu';
 import AddIcon from '@material-ui/icons/Add';
+import AddNewLogDrawer from './components/dialogs/AddNewLogDrawer';
 import SearchIcon from '@material-ui/icons/Search';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import PropTypes from 'prop-types';
@@ -23,6 +24,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import Listing from './components/Listing';
+import AddLogDialog from '../pages/components/dialogs/FullScreenDialog';
+import backgroundIm from '../pages/components/imgs/blackboard.jpg';
 
 
 
@@ -107,7 +110,7 @@ export default function BottomAppBar() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <div className={classes.root}>
+      <div styles={{ backgroundImage: `url("https://via.placeholder.com/500")`  }} className={classes.root}>
         <AppBar position="fixed" color="default">
           <Tabs
             value={value}
@@ -140,16 +143,15 @@ export default function BottomAppBar() {
           </TabPanel>
         </SwipeableViews>
       </div>
-      <AppBar position="fixed" color="primary" className={classes.appBar}>
+      <AddLogDialog/>
+      {/* <AppBar position="fixed" color="primary" className={classes.appBar}>
         <Toolbar>
 
-          <Fab color="secondary" aria-label="add" className={classes.fabButton}>
-            <AddIcon />
-          </Fab>
+          <AddNewLogDrawer/>
           <div className={classes.grow} />
     
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
     </React.Fragment>
   );
 }

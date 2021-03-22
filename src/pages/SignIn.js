@@ -31,14 +31,14 @@ function Copyright() {
 }
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: "200px",
+    marginTop: "130px",
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+
   },
   form: {
     width: '100%', // Fix IE 11 issue.

@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     });
   }, []);
   if(pending){
-    return <>Chotto Matteeeeeeeee!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!...</>
+    return <p style={{ textAlign:"center" }}>Chotto Matteeeeeeeee!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!...</p>
   }
   return (
     <AuthContext.Provider

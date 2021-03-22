@@ -33,7 +33,7 @@ import {firestore} from './firebase';
 import auth from './firebase';
 import firebase from "firebase/app";
 import Weekly from './Weekly';
-
+import backgroundImg from '../components/imgs/blackboard.jpg'
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -66,7 +66,7 @@ function a11yProps(index) {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "green",
     width: "100%",
     position: "relative",
     minHeight: 200,
@@ -95,6 +95,14 @@ const useStyles2 = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+  },
+  fabButton: {
+    position: 'absolute',
+    zIndex: 1,
+    top: -30,
+    left: 0,
+    right: 0,
+    margin: '0 auto',
   },
 }));
 
@@ -190,9 +198,7 @@ export default function AnimatedTabs() {
             Website Name
           </Typography>
           <Button  color="inherit">pitaro0201@gmail.com</Button>
-        </Toolbar>
-
-        <Tabs
+          <Tabs
           value={value}
           onChange={handleChange}
           indicatorColor="primary"
@@ -204,6 +210,8 @@ export default function AnimatedTabs() {
           <Tab label="Today" {...a11yProps(1)} />
           <Tab label="Account" {...a11yProps(2)} />
         </Tabs>
+        </Toolbar>
+
       </AppBar>
       <SwipeableViews
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
@@ -214,7 +222,7 @@ export default function AnimatedTabs() {
           <div
             style={{
               display: "grid",
-              backgroundColor: "#F2DC99",
+              backgroundImage: `URL(${backgroundImg})`,
               alignContent: "center",
               justifyContent: "center",
               alignItems: "center",
@@ -248,7 +256,7 @@ export default function AnimatedTabs() {
           <div
             style={{
               display: "grid",
-              backgroundColor: "#F2DC99",
+              backgroundImage: `URL(${backgroundImg})`,
               alignContent: "center",
               justifyContent: "center",
               alignItems: "center",
