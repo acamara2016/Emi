@@ -27,8 +27,8 @@ import List from "@material-ui/core/List";
 import IconButton from "@material-ui/core/IconButton";
 import Toolbar from "@material-ui/core/Toolbar";
 import backgroundImg from '../components/imgs/blackboard.jpg'
-import {firestore} from './firebase';
-import auth from './firebase';
+import {firestore} from './firebase/firebase';
+import auth from './firebase/firebase';
 import firebase from "firebase/app";
 
 function TabPanel(props) {
@@ -138,40 +138,6 @@ export default class AnimatedTabs extends React.Component{
     this.setState({value=newValue})
   };
 
-  const addLog = (subject, page_number, feedback, time) => {
-    const user = firebase.auth().currentUser;
-    var curr = new Date();
-    return firestore.collection('users').doc(user.uid).collection('logs')
-        .add({
-            date: curr,
-            subject : subject,
-            page_number: page_number,
-            feedback : feedback,
-            time: time,
-        });
-  };
-  // const getLogs = () =>{
-  //   const user = firebase.auth().currentUser;
-  //   let list =[];
-  //   firestore.collection("users").doc(user.uid).collection("logs").get().then((querySnapshot) => {
-  //     querySnapshot.forEach((doc) => {
-          
-  //         sethomeworkList([...homeworkList,
-  //           {
-  //             "id":doc.id,
-  //             "full_date":doc.data().date.toDate(),
-  //             "date":doc.data().date.toDate().getDate(),
-  //             "note":doc.data().note,
-  //             "subject":doc.data().subject,
-  //             "time":doc.data().time,
-  //             "feedback":doc.data().feedback
-  //           }
-  //         ])
-  //     });  
-  //   });
-  // }
-
-
 
   const handleChangeIndex = (index) => {
     this.setState({index=index})
@@ -236,7 +202,7 @@ export default class AnimatedTabs extends React.Component{
     (myCurrentDate.getMonth() + 1) +
     "/" +
     myCurrentDate.getDate();
-  const newCurrentDate = "Current Date and Time: " + date;
+
   var curr = new Date(); // get current date
   var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
 
@@ -249,7 +215,7 @@ export default class AnimatedTabs extends React.Component{
   
 
   if(loading){
-    return <p>Chotto Matteeeee!!!!!!!!!!!</p>
+    return <p>This Chotto Matteeeee!!!!!!!!!!!</p>
   }
 
     return(
