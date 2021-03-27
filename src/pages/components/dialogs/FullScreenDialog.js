@@ -13,6 +13,7 @@ import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import { Paper } from '@material-ui/core';
+import AddLog from '../forms/AddLog';
 
 /**
  * Author: Adama Camara
@@ -73,10 +74,15 @@ export default function AddLogDialog() {
           </Toolbar>
         </AppBar>
         <Container style={{ padding:"30px" }} maxWidth="sm">
-            <Paper style={{ height:"300px" }} elevation={3}>
+            <Paper style={{ 
+              height:"400px", 
+              textAlignLast:"center", 
+              paddingTop:"30px", 
+              marginTop:"100px", 
+              backgroundColor:"#4b6452" ,
+            }} elevation={3}>
                 <div>
-                <TextField style={{  }}/>
-                <TextField/>
+                <AddLog/>
                 </div>
             </Paper>
         </Container>
