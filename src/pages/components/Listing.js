@@ -1,11 +1,8 @@
-import React , {useEffect, useState} from "react";
-import { makeStyles } from '@material-ui/core/styles';
+import React from "react";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import {firestore} from './firebase';
-import auth from './firebase';
+import {firestore} from './firebase/firebase';
 import firebase from "firebase/app";
 import SimpleAccordion from "./Accordion";
 
@@ -44,6 +41,7 @@ export default class Listing extends React.Component {
       root: {
         width: '100%',
         position: 'relative',
+        height: '100vh',
         overflow: 'auto',
       },
       listSection: {
@@ -136,21 +134,4 @@ export default class Listing extends React.Component {
     </List>
     );
   }
-
-}
-function single_log(logID, date, subject, page_number, time, feedback, state, note) {
-    
-  return (
-
-    <SimpleAccordion
-      style={{ margin: "20px" }}
-      date={date}
-      subject={subject}
-      page_number={page_number}
-      time={time}
-      feedback={feedback}
-      id={logID}
-      note={note}
-    />
-  );
 }

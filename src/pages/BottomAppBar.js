@@ -2,22 +2,8 @@ import React from 'react';
 import { makeStyles, useTheme  } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
-import Fab from '@material-ui/core/Fab';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import Avatar from '@material-ui/core/Avatar';
-import MenuIcon from '@material-ui/icons/Menu';
-import AddIcon from '@material-ui/icons/Add';
-import AddNewLogDrawer from './components/dialogs/AddNewLogDrawer';
-import SearchIcon from '@material-ui/icons/Search';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import Tabs from '@material-ui/core/Tabs';
@@ -25,8 +11,6 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import Listing from './components/Listing';
 import AddLogDialog from '../pages/components/dialogs/FullScreenDialog';
-import backgroundIm from '../pages/components/imgs/blackboard.jpg';
-
 
 
 function TabPanel(props) {
@@ -110,7 +94,7 @@ export default function BottomAppBar() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <div styles={{ backgroundImage: `url("https://via.placeholder.com/500")`  }} className={classes.root}>
+      <div styles={{ }} className={classes.root}>
         <AppBar position="fixed" color="default">
           <Tabs
             value={value}
@@ -131,9 +115,9 @@ export default function BottomAppBar() {
           onChangeIndex={handleChangeIndex}
         >
           <TabPanel value={value} index={0} dir={theme.direction}>
-            <div style={{marginTop:"50px",}}>
+            <Paper  elevation={3} style={{marginTop:"50px",}}>
             <Listing/>
-            </div>
+            </Paper>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
             Item Two
@@ -144,14 +128,6 @@ export default function BottomAppBar() {
         </SwipeableViews>
       </div>
       <AddLogDialog/>
-      {/* <AppBar position="fixed" color="primary" className={classes.appBar}>
-        <Toolbar>
-
-          <AddNewLogDrawer/>
-          <div className={classes.grow} />
-    
-        </Toolbar>
-      </AppBar> */}
     </React.Fragment>
   );
 }

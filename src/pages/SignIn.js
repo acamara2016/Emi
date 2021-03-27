@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react'; // add {useCallback, useContext}
 import { withRouter, Redirect } from "react-router";
-import auth from "./components/firebase";
+import auth from "./components/firebase/firebase";
 import { AuthContext } from "./components/Authentication";
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,8 +12,6 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Avatar from '@material-ui/core/Avatar';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Logo from "./components/imgs/logo.png";
 
 import { Link } from 'react-router-dom'

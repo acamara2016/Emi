@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
  import SignIn from './pages/SignIn';
  import SignUp from './pages/SignUp';
- import Landing from './pages/Landing';
 import { AuthProvider } from './pages/components/Authentication';
 import PasswordReset from './pages/PasswordReset';
 import BottomAppBar from './pages/BottomAppBar';

@@ -1,8 +1,8 @@
 import React, { useCallback} from "react";
 import { Link } from 'react-router-dom'
 import { withRouter, Redirect } from "react-router";
-import auth from "./components/firebase";
-import {writeUserData} from './components/firebase';
+import auth from "./components/firebase/firebase";
+import {writeUserData} from './components/firebase/firebase';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
