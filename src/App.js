@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import React, {Component} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -11,22 +11,35 @@ import {
 import { AuthProvider } from './pages/components/Authentication';
 import PasswordReset from './pages/PasswordReset';
 import BottomAppBar from './pages/BottomAppBar';
-
+import SplashScreen from './pages/components/splash/index';
 
 function App(){
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 3000)
+  }, [])
+
   const user = null; 
+
     return (
-      <AuthProvider>
-        <Router>
-          <Switch>
-            <Route exact path="/sign-in" component={SignIn} />
-            <Route exact path="/sign-up" component={SignUp} />
-            <Route exact path="/reset-password" component={PasswordReset}/>
-            <Route exact path="/" component={BottomAppBar}/>
-          </Switch>
-        </Router>
-      </AuthProvider>
+      <>
+      {loading === false ?(
+        <AuthProvider>
+         <Router>
+           <Switch>
+             <Route exact path="/sign-in" component={SignIn} />
+             <Route exact path="/sign-up" component={SignUp} />
+             <Route exact path="/reset-password" component={PasswordReset}/>
+             <Route exact path="/" component={BottomAppBar}/>
+           </Switch>
+         </Router>
+       </AuthProvider>
+      ):(
+      <SplashScreen/>
+      )}
+      </>
     );
 }
-
 export default App;
+

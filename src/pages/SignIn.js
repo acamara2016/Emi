@@ -76,6 +76,7 @@ export default function SignIn({history}) {
           <TextField
             variant="outlined"
             margin="normal"
+            color="#f2dc99"
             required
             fullWidth
             id="email"
@@ -90,6 +91,7 @@ export default function SignIn({history}) {
             margin="normal"
             required
             fullWidth
+            color="#f2dc99"
             name="password"
             label="パスワード"
             type="password"

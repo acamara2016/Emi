@@ -21,17 +21,21 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import EditIcon from '@material-ui/icons/Edit';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import background from './imgs/paper_@2X.png';
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: '100%'
+      width: '100%',
     },
     heading: {
-        fontSize: theme
-            .typography
-            .pxToRem(15),
-        fontWeight: theme.typography.fontWeightRegular
-    }
+      fontSize: theme.typography.pxToRem(15),
+      flexBasis: '33.33%',
+      flexShrink: 0,
+    },
+    secondaryHeading: {
+      fontSize: theme.typography.pxToRem(15),
+      color: theme.palette.text.secondary,
+    },
 }));
 
 export default function SimpleAccordion(props) {
@@ -49,6 +53,26 @@ export default function SimpleAccordion(props) {
     const handleClick = () => {
       setOpen(true);
     };
+    const handleSubmit = (e) => {
+        submitWork(props.id)
+        e.preventDefault();
+    }
+
+    const submitWork = (logID) => {
+        console.log("submitting work");
+        const user = firebase
+            .auth()
+            .currentUser
+        var curr = new Date();
+        firestore
+            .collection("users")
+            .doc(user.uid)
+            .collection("logs")
+            .doc(logID)
+            .update({
+                "state": "true"
+            })
+    }
   
     const handleClose = (event, reason) => {
       if (reason === 'clickaway') {
@@ -62,12 +86,19 @@ export default function SimpleAccordion(props) {
     return (
         <div style={{ margin: "10px",backgroundImage: `url(${background})`}}
             className={classes.root}>
-            <Accordion>
+            <Accordion style={{backgroundColor:"#F2DC99" }}
+                style={{
+                    backgroundColor: props.state=="false" ? '#F2DC99' : '#4caf51',
+                  }}
+            >
                 <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
                 id="panel1a-header">
                 <Typography className={classes.heading}>{props.subject}</Typography>
+                <Typography className={classes.secondaryHeading}>
+                    {props.state=="false" ? "" : <CheckCircleOutlineIcon/>}
+                </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                 <Typography>
@@ -75,9 +106,9 @@ export default function SimpleAccordion(props) {
                 </Typography>
                 </AccordionDetails>
                 <AccordionActions>
-                    <FormDialog time={props.time} subject={props.subject} note={props.note}/>
+                    <FormDialog id={props.id} time={props.time} subject={props.subject} note={props.note}/>
                     <Fab onClick={handleClick} color="secondary" variant="extended">
-                        <CheckCircleOutlineIcon className={classes.extendedIcon} />
+                        <CheckCircleOutlineIcon onClick={handleSubmit} className={classes.extendedIcon} />
                         Submit
                     </Fab>
                 </AccordionActions>
@@ -94,12 +125,8 @@ export default function SimpleAccordion(props) {
 function FormDialog(props) {
     const [open,
         setOpen] = React.useState(false);
-    const [choreDesc,
-        setChoreDesc] = useState();
-    const [name,
-        setName] = useState();
-    const [date,
-        setDate] = useState();
+    const [subject=props.subject,
+        setSubject] = useState();
     const [time,
         setTime] = useState();
     const [note,
@@ -109,15 +136,18 @@ function FormDialog(props) {
         setOpen(true);
     };
 
-    const handleClose = () => {
-        setOpen(false);
+    const handleClose = (e) => {
+        updateLog(props.id, subject, "undefined", "undefined", "undefined", note)
+        e.preventDefault();
     };
     const handleSubmit = (e) => {
-        updateLog(props.id, props.subject, "props.page_number", props.feedback, time, note)
+        updateLog(props.id, subject, "props.page_number", props.feedback, time, note)
+        setOpen(false);
         e.preventDefault();
     }
 
-    const updateLog = (logID, subject, page_number, feedback, time, note) => {
+    const updateLog = (logID, name, page_number, feedback, time, note) => {
+        console.log(logID+"/"+name+"/"+note);
         const user = firebase
             .auth()
             .currentUser
@@ -129,34 +159,15 @@ function FormDialog(props) {
             .doc(logID)
             .update({
                 "date": curr,
-                "subject": subject,
+                "subject": name,
                 "note": note,
-                "page_number": page_number,
-                "feedback": feedback,
-                "time": time,
+                "page_number": "undefined",
+                "feedback": "undefined",
+                "time": "undefined",
                 "state": "false"
             })
     }
-    const submitWork = (logID, subject, page_number, feedback, time, note) => {
-        const user = firebase
-            .auth()
-            .currentUser
-        var curr = new Date();
-        firestore
-            .collection("users")
-            .doc(user.uid)
-            .collection("logs")
-            .doc(logID)
-            .update({
-                "date": curr,
-                "subject": subject,
-                "note": note,
-                "page_number": page_number,
-                "feedback": feedback,
-                "time": time,
-                "state": "true"
-            })
-    }
+
 
     return (
         <div>
@@ -165,52 +176,50 @@ function FormDialog(props) {
                         Edit
             </Fab>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Edit {props.subject}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        To subscribe to this website, please enter your email address here. We will send
-                        updates occasionally.
-                    </DialogContentText>
+            <Paper>
+            <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogContent>
 
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Email Address"
-                        type="email"
-                        fullWidth/>
-                    <form
-                        onSubmit={e => {
-                        handleSubmit(e)
-                    }}>
-                        <label>Duration:</label>
-                        <br/>
-                        <input
-                            name='Duration'
-                            type='number'
-                            defaultValue={props.time}
-                            value={time}
-                            onChange={e => setTime(e.target.value)}/>
-                        <br/>
-                        <label>Note:</label>
-                        <br/>
-                        <input
-                            name='choreDesc'
-                            type='text'
-                            defaultValue={props.note}
-                            value={note}
-                            onChange={e => setNote(e.target.value)}/> {/* <input type='submit' value='Update Log'/> */}
-                    </form>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        Cancel
-                    </Button>
-                    <Button onClick={handleClose} color="primary">
-                        Subscribe
-                    </Button>
-                </DialogActions>
-            </Dialog>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Subject"
+            type="text"
+            value={subject}
+            variant="outlined" 
+            fullWidth
+            onChange={e => setSubject(e.target.value)}
+            defaultValue={props.subject}
+          />
+          <TextField
+            style={{marginTop:"20px"}}
+            autoFocus
+           
+            id="note"
+            defaultValue={note}
+            label="Note"
+            variant="outlined" 
+            multiline
+            value={note}
+            row={6}
+            defaultValue={props.note}
+            type="text"
+            onChange={e => setNote(e.target.value)}
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} color="primary">
+            Update
+          </Button>
+        </DialogActions>
+
+            </Paper>
+      </Dialog>
         </div>
     );
 }

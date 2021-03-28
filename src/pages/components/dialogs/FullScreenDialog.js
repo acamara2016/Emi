@@ -75,11 +75,9 @@ export default function AddLogDialog() {
         </AppBar>
         <Container style={{ padding:"30px" }} maxWidth="sm">
             <Paper style={{ 
-              height:"400px", 
-              textAlignLast:"center", 
+              textAlign: "center",
               paddingTop:"30px", 
-              marginTop:"100px", 
-              backgroundColor:"#4b6452" ,
+              margin:"20px",
             }} elevation={3}>
                 <div>
                 <AddLog/>

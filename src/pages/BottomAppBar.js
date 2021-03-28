@@ -11,6 +11,10 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import Listing from './components/Listing';
 import AddLogDialog from '../pages/components/dialogs/FullScreenDialog';
+import PinnedSubheaderList from './components/Listing_2';
+import Profile from './components/profile/index';
+import OnWorking from './components/imgs/Work_in_progress_svg.png';
+import { Container } from '@material-ui/core';
 
 
 function TabPanel(props) {
@@ -120,10 +124,12 @@ export default function BottomAppBar() {
             </Paper>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            Item Two
+            <Container style={{textAlign:"center", marginTop:"150px"}} maxWidth="lg">
+              <img alt="working" src={OnWorking} width="200px" />
+            </Container>
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
-            Item Three
+            <Profile/>
           </TabPanel>
         </SwipeableViews>
       </div>

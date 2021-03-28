@@ -14,7 +14,7 @@ export default class Listing extends React.Component {
       .collection("users")
       .doc(firebase.auth().currentUser.uid)
       .collection("logs")
-      .get().then((querySnapshot) => {
+      .onSnapshot((querySnapshot) => {
           const data = [];
               querySnapshot.forEach((doc) => {
                   data.push({
@@ -24,15 +24,14 @@ export default class Listing extends React.Component {
                       "note":doc.data().note,
                       "subject":doc.data().subject,
                       "time":doc.data().time,
-                      "feedback":doc.data().feedback
+                      "feedback":doc.data().feedback,
+                      "state":doc.data().state
                   });
               });  
               this.setState({data});
             
             })
-            .catch(function(error){
-                console.log("Error getting document ", error);
-          });    
+                
       
           
   }
@@ -107,9 +106,9 @@ export default class Listing extends React.Component {
     return (
       
       <List className={useStyles.list}>
-      {this.state.data.map(({ id, date, note, subject, time }) => (
+      {this.state.data.map(({ id, date, note, subject, time, state}) => (
         <React.Fragment key={id}>
-          {console.log("Comparing: "+date+" and "+week[0])}
+          {console.log("States: "+state)}
           {date === week[0] && <ListSubheader style={{ backgroundColor:"#fff" }} className={useStyles.subheader}>Monday</ListSubheader>}
           {date === week[1] && <ListSubheader style={{ backgroundColor:"#fff" }} className={useStyles.subheader}>Tuesday</ListSubheader>}
           {date === week[2] && <ListSubheader style={{ backgroundColor:"#fff" }} className={useStyles.subheader}>Wednesday</ListSubheader>}
@@ -126,6 +125,7 @@ export default class Listing extends React.Component {
             time={time}
             id={id}
             note={note}
+            state={state}
           />
           </ListItem>
 

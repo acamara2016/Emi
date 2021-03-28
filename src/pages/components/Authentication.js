@@ -11,7 +11,9 @@ export const AuthProvider = ({ children }) => {
     });
   }, []);
   if(pending){
-    return <p style={{ textAlign:"center" }}>Chotto Matteeeeeeeee!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!...</p>
+    return <div>
+      <p style={{ textAlign:"center" }}>Chotto Matteeeeeeeee!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!...</p>
+    </div> 
   }
   return (
     <AuthContext.Provider
