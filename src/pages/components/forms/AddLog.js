@@ -16,7 +16,13 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import TimelapseIcon from '@material-ui/icons/Timelapse';
 import  { Redirect } from 'react-router-dom';
-
+import DatePicker from "react-datepicker";
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,6 +30,14 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       width: 200,
     },
+  },
+  container: {
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
   },
 }));
 
@@ -42,10 +56,19 @@ function Alert(props) {
 }
 
 export default function AddLog() {
+  const classes = useStyles();
   const [open,
     setOpen] = React.useState(false);
     const [open2, setOpen2] = React.useState(false);
+    const [selectedDate, setSelectedDate] = React.useState(new Date());
+    const [timer, setTimer] = React.useState(0);
 
+    const handleDateChange = (date) => {
+      setSelectedDate(date);
+    };
+    const handleTimerChange = (timer) => {
+      setTimer(timer);
+    };
     const handleClick = () => {
       setOpen2(true);
     };
@@ -67,22 +90,23 @@ const [time,
     setTime] = useState();
 const [note,
     setNote] = useState();
-  const classes = useStyles();
+
   const [selectedValue, setSelectedValue] = React.useState('a');
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
   const handleSubmit = (e) => {
-    addLog(name, "undefined", "undefined", "time", note)
+    addLog(name, "undefined", "undefined", timer, note, selectedDate)
+    console.log("adding-first state")
     e.preventDefault();
 }
-  const addLog = (subject, page_number, feedback, time, note) => {
+  const addLog = (subject, page_number, feedback, time, note, date) => {
     const user = firebase.auth().currentUser;
     var curr = new Date();
-    return firestore.collection('users').doc(user.uid).collection('logs')
+   firestore.collection('users').doc(user.uid).collection('logs')
         .add({
-            date: curr,
+            date: date,
             subject : subject,
             page_number: page_number,
             feedback : feedback,
@@ -96,7 +120,7 @@ const [note,
 
 
   return (
-    <form 
+    <form className={classes.container}
     onSubmit={e => {
       handleSubmit(e)
     }}
@@ -105,9 +129,36 @@ const [note,
           color: "white",
           textDecorationColor: "white" }}>
       <TextField
+        id="datetime-local"
+        label="When?"
+        variant="outlined"
+        type="datetime-local"
+        defaultValue={selectedDate}
+        onChange={handleDateChange}
+        className={classes.textField}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+        <TextField
+        id="time"
+        label="How long did it take? (min)"
+        type="number"
+        variant="outlined"
+        defaultValue={timer}
+        onChange={handleTimerChange}
+        className={classes.textField}
+        InputLabelProps={{
+          shrink: true,
+        }}
+        inputProps={{
+          step: 10, // 5 min
+        }}
+    />
+      <TextField
           id="filled-multiline-static"
           label="Subject"
-          variant="filled"
+          variant="outlined"
           value={name}
           onChange={e => setName(e.target.value)}
         />
@@ -122,7 +173,7 @@ const [note,
           rows={6}
           value={note}
           onChange={e => setNote(e.target.value)}
-          variant="filled"
+          variant="outlined"
         />
       </div>
       <div style={{marginTop: "50px"}}>

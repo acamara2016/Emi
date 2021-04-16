@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import firebase from "firebase/app";
+import { withRouter, Redirect } from "react-router";
 import Box from '@material-ui/core/Box';
 import Listing from './components/Listing';
 import AddLogDialog from '../pages/components/dialogs/FullScreenDialog';
@@ -95,11 +97,22 @@ export default function BottomAppBar() {
   const handleChangeIndex = (index) => {
     setValue(index);
   };
+  var currentUser = null;
+    var email = null;
+    var login_logout = "LOGIN";
+    if(firebase.auth().currentUser){
+      currentUser = firebase.auth().currentUser
+      email = firebase.auth().email
+      login_logout = "DISCONNECT";
+    }
+  if (currentUser===null) {
+    return <Redirect to="/sign-in" />;
+  } 
   return (
     <React.Fragment>
       <CssBaseline />
       <div styles={{ }} className={classes.root}>
-        <AppBar position="fixed" color="default">
+        <AppBar position="sticky" color="default">
           <Tabs
             value={value}
             onChange={handleChange}
@@ -119,9 +132,9 @@ export default function BottomAppBar() {
           onChangeIndex={handleChangeIndex}
         >
           <TabPanel value={value} index={0} dir={theme.direction}>
-            <Paper  elevation={3} style={{marginTop:"50px",}}>
-            <Listing/>
-            </Paper>
+            <div style={{marginTop:'130'}} >
+            <Listing />
+            </div>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
             <Container style={{textAlign:"center", marginTop:"150px"}} maxWidth="lg">
@@ -133,7 +146,7 @@ export default function BottomAppBar() {
           </TabPanel>
         </SwipeableViews>
       </div>
-      <AddLogDialog/>
+      < AddLogDialog style={{position: 'fixed'}} />
     </React.Fragment>
   );
 }

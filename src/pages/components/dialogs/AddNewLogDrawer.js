@@ -29,7 +29,7 @@ const useStyles = makeStyles({
     width: 'auto',
   },
   fabButton: {
-    position: 'absolute',
+    position: 'fixed',
     zIndex: 1,
     top: -30,
     left: 0,
@@ -106,7 +106,7 @@ export default function AddNewLogDrawer() {
 
       {['bottom'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Fab onClick={handleClickOpen} color="secondary" aria-label="add" className={classes.fabButton}>
+          <Fab style={{position: 'fixed'}} onClick={handleClickOpen} color="secondary" aria-label="add" className={classes.fabButton}>
             <AddIcon />
           </Fab>
           <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>

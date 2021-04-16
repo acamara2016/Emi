@@ -6,9 +6,18 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Button from "@material-ui/core/Button";
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
+import { withRouter, Redirect } from "react-router";
 import Logo from "../imgs/logo.png";
-export default function Profile(props){
-    const history = useHistory();
+export default function Profile(props,{history}){
+    
+    var currentUser = null;
+    var email = null;
+    var login_logout = "LOGIN";
+    if(firebase.auth().currentUser){
+      currentUser = firebase.auth().currentUser
+      email = firebase.auth().email
+      login_logout = "DISCONNECT";
+    }
     const useStyles = makeStyles((theme) => ({
         paper: {
           marginTop: "130px",
@@ -35,13 +44,16 @@ export default function Profile(props){
           const { email, password } = event.target.elements;
           try {
             await firebase.auth().signOut()
-            history.push("/");
+            history.push("/sign-in");
           } catch (error) {
             alert(error);
           }
         },
         [history]
       );
+      if (currentUser===null) {
+        return <Redirect to="/sign-in" />;
+      } 
     return(
         <Container maxWidth="lg">
         <CssBaseline/>
@@ -50,7 +62,7 @@ export default function Profile(props){
     
         <form onSubmit={handleSignOut}  className={classes.form} noValidate>
         <h3 style={{textAlign: "center"}}>{
-                firebase.auth().currentUser.email
+                email
                 }</h3>
         
           <Button
@@ -61,7 +73,7 @@ export default function Profile(props){
             color="primary"
             className={classes.submit}
           >
-            DISCONNECT
+            {login_logout}
           </Button>
     
         </form>

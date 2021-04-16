@@ -5,15 +5,20 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import {firestore} from './firebase/firebase';
 import firebase from "firebase/app";
 import SimpleAccordion from "./Accordion";
+import Timelines from "./timelines/index";
+import SimpleCard from "./timelines/Card";
+import { Card } from "@material-ui/core";
 
 export default class Listing extends React.Component {
   state = {data:[]};
   componentDidMount(){
+    if(firebase.auth().currentUser){
       firebase
       .firestore()
       .collection("users")
       .doc(firebase.auth().currentUser.uid)
       .collection("logs")
+      .orderBy("date","asc")
       .onSnapshot((querySnapshot) => {
           const data = [];
               querySnapshot.forEach((doc) => {
@@ -31,9 +36,7 @@ export default class Listing extends React.Component {
               this.setState({data});
             
             })
-                
-      
-          
+    }   
   }
   render(){
     const useStyles = {
@@ -90,6 +93,21 @@ export default class Listing extends React.Component {
               time: time,
           });
     };
+    const show_week = (week)=>{
+      var n = 0;
+        return (
+          <div style={{paddingTop:'50px'}}>
+            {week.map((index) => (
+        <SimpleCard data={this.state.data} day={index} key={`section-${n++}}`}/>
+      ))}
+
+          </div>
+            // {this.state.data.map((element => element)=>(
+            //   <SimpleCard/>
+            // )}
+        );
+
+    }
 
     console.log(this.state.data)
   
@@ -102,36 +120,10 @@ export default class Listing extends React.Component {
       console.log(day.slice(-2)) //slicing the last 2 digit from 2020-03-15
       week.push(day.slice(-2))
     }
-    
+    console.log(week)
     return (
-      
-      <List className={useStyles.list}>
-      {this.state.data.map(({ id, date, note, subject, time, state}) => (
-        <React.Fragment key={id}>
-          {console.log("States: "+state)}
-          {date === week[0] && <ListSubheader style={{ backgroundColor:"#fff" }} className={useStyles.subheader}>Monday</ListSubheader>}
-          {date === week[1] && <ListSubheader style={{ backgroundColor:"#fff" }} className={useStyles.subheader}>Tuesday</ListSubheader>}
-          {date === week[2] && <ListSubheader style={{ backgroundColor:"#fff" }} className={useStyles.subheader}>Wednesday</ListSubheader>}
-          {date === week[3] && <ListSubheader className={useStyles.subheader}>Thursday</ListSubheader>}
-          {date === week[4] && <ListSubheader className={useStyles.subheader}>Friday</ListSubheader>}
-          {date === week[5] && <ListSubheader className={useStyles.subheader}>Saturday</ListSubheader>}
-          {date === week[6] && <ListSubheader className={useStyles.subheader}>Sunday</ListSubheader>}
-          <ListItem button>
-
-         
-          <SimpleAccordion 
-            date={date}
-            subject={subject}
-            time={time}
-            id={id}
-            note={note}
-            state={state}
-          />
-          </ListItem>
-
-        </React.Fragment>
-      ))}
-    </List>
+      // <Timelines data={this.state.data} week={week}/>
+      show_week(week)
     );
   }
 }

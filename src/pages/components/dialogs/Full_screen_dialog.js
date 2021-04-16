@@ -25,6 +25,14 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     flex: 1,
   },
+  fabButton: {
+    position: 'fixed',
+    zIndex: 1,
+    top: -30,
+    left: 0,
+    right: 0,
+    margin: '0 auto',
+  },
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -45,7 +53,7 @@ export default function FullScreenDialog() {
 
   return (
     <div>
-      <Fab aria-label="add" variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Fab className={classes.fabButton} aria-label="add" variant="outlined" color="primary" onClick={handleClickOpen}>
       <AddIcon />
       </Fab>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>

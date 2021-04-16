@@ -23,14 +23,15 @@ import AddLog from '../forms/AddLog';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    position: 'relative',
+    position: 'sticky',
+
   },
   title: {
     marginLeft: theme.spacing(2),
     flex: 1,
   },
   fab: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
@@ -66,10 +67,10 @@ export default function AddLogDialog() {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Search food by name
+              Enter a Note
             </Typography>
             <Button autoFocus color="inherit" onClick={handleClose}>
-              Close
+              Cancel
             </Button>
           </Toolbar>
         </AppBar>
