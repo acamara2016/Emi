@@ -14,6 +14,8 @@ import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import { Paper } from '@material-ui/core';
 import EditLog from '../forms/EditNote';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 
 /**
  * Author: Adama Camara
@@ -57,9 +59,9 @@ export default function DialogEditNote(props) {
 
   return (
     <div>
-        <Fab color="primary" className={classes.fab} onClick={handleClickOpen} aria-label="Add food">
-            <AddIcon/>
-        </Fab>
+          <IconButton onClick={handleClickOpen} edge="end" aria-label="comments">
+                <EditIcon/>
+        </IconButton>
       <Dialog fullScreen open={open} onClose-={handleClose} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
           <Toolbar>

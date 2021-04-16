@@ -6,11 +6,14 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import AlignItemsList from './AlignItemsList';
-
+import Divider from '@material-ui/core/Divider';
+import Note from "../note/Note";
+import SingleNote from "../note/SingleNote";
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
     marginTop:"20px",
+    marginBottom:"20px",
     display: "flex",
     width:"maxContent",
     textAlign: "center"
@@ -60,7 +63,9 @@ export default function SimpleCard(props) {
 
 
   return (
-    <Card elevation={5} key={props.key} className={classes.root}>
+      <div>
+          <Divider style={{backgroundColor: "red", height:"2px"}}/>
+          <Card elevation={5} key={props.key} className={classes.root}>
     <Typography className={classes.day} color="textSecondary" gutterBottom>
           {props.day}
     </Typography>
@@ -68,7 +73,7 @@ export default function SimpleCard(props) {
         {/* <Typography className={classes.title} color="textSecondary" gutterBottom>
           {props.subject}
         </Typography> */}
-        <AlignItemsList notes={notes} day={props.day} />
+        <SingleNote notes={notes} day={props.day} />
         {/* <Typography variant="h5" component="h2">
           be{bull}nev{bull}o{bull}lent
         </Typography> */}
@@ -83,5 +88,6 @@ export default function SimpleCard(props) {
       </CardActions>
       </CardContent>
     </Card>
+      </div>
   );
 }
