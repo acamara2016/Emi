@@ -14,10 +14,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import FormLabel from '@material-ui/core/FormLabel';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import TimelapseIcon from '@material-ui/icons/Timelapse';
-import  { Redirect } from 'react-router-dom';
-import DatePicker from "react-datepicker";
-import DateFnsUtils from '@date-io/date-fns';
+
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
@@ -60,14 +57,14 @@ export default function EditNote(props) {
   const [open,
     setOpen] = React.useState(false);
     const [open2, setOpen2] = React.useState(false);
-    const [selectedDate, setSelectedDate] = React.useState(new Date());
-    const [timer, setTimer] = React.useState(0);
+    const [selectedDate, setSelectedDate] = React.useState(props.date);
+    const [time, setTime] = React.useState(props.time);
 
     const handleDateChange = (date) => {
       setSelectedDate(date);
     };
-    const handleTimerChange = (timer) => {
-      setTimer(timer);
+    const handleTimerChange = (time) => {
+      setTime(time);
     };
     const handleClick = () => {
       setOpen2(true);
@@ -83,13 +80,11 @@ export default function EditNote(props) {
 const [choreDesc,
     setChoreDesc] = useState();
 const [name,
-    setName] = useState();
+    setName] = useState(props.subject);
 const [date,
-    setDate] = useState();
-const [time,
-    setTime] = useState();
+    setDate] = useState(props.date);
 const [note,
-    setNote] = useState();
+    setNote] = useState(props.note);
 
   const [selectedValue, setSelectedValue] = React.useState('a');
 
@@ -97,16 +92,43 @@ const [note,
     setSelectedValue(event.target.value);
   };
   const handleSubmit = (e) => {
-    addLog(name, "undefined", "undefined", timer, note, selectedDate)
-    console.log("adding-first state")
+    updateLog(props.id, name, "props.page_number", props.feedback, time, note, selectedDate)
+    setOpen(false);
     e.preventDefault();
+}
+//   const handleSubmit = (e) => {
+//     addLog(name, "undefined", "undefined", timer, note, selectedDate)
+//     console.log("adding-first state")
+//     e.preventDefault();
+// }
+const updateLog = (id, subject, page_number, feedback, time, note, date) => {
+  console.log("time: " + time+" date "+date);
+  const user = firebase
+      .auth()
+      .currentUser
+  var curr = new Date();
+  firestore
+      .collection("users")
+      .doc(user.uid)
+      .collection("logs")
+      .doc(id)
+      .update({
+          "last_change": curr,
+          "subject": subject,
+          "note": note,
+          // "date":date,
+          "page_number": "undefined",
+          "feedback": "undefined",
+          // "duration": "time",
+          "state": "false"
+      }).then(handleClick)
 }
   const addLog = (subject, page_number, feedback, time, note, date) => {
     const user = firebase.auth().currentUser;
     var curr = new Date();
    firestore.collection('users').doc(user.uid).collection('logs')
         .add({
-            date: date,
+            latest_change: date,
             subject : subject,
             page_number: page_number,
             feedback : feedback,
@@ -120,7 +142,7 @@ const [note,
 
 
   return (
-    <form className={classes.container}
+    <div className={classes.container}
     onSubmit={e => {
       handleSubmit(e)
     }}
@@ -132,9 +154,9 @@ const [note,
         id="datetime-local"
         label="When?"
         variant="outlined"
-        type="datetime-local"
+        type="datetime-local"qqq
         defaultValue={selectedDate}
-        onChange={handleDateChange}
+        onChange={e => setSelectedDate(e.target.value)}
         className={classes.textField}
         InputLabelProps={{
           shrink: true,
@@ -145,8 +167,8 @@ const [note,
         label="How long did it take? (min)"
         type="number"
         variant="outlined"
-        defaultValue={timer}
-        onChange={handleTimerChange}
+        defaultValue={time}
+        onChange={e => setTime(e.target.value)}
         className={classes.textField}
         InputLabelProps={{
           shrink: true,
@@ -179,15 +201,15 @@ const [note,
       <div style={{marginTop: "50px"}}>
       
     </div>
-        <Fab type="submit" style={{marginBottom:"30px"}} variant="extended">
+        <Fab onClick={handleSubmit} style={{marginBottom:"30px"}} variant="extended">
       <SaveIcon/>
       Save
     </Fab>
     <Snackbar open={open2} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success">
-          {name} added to your plan!
+          {name} updated!
         </Alert>
       </Snackbar>
-    </form>
+    </div>
   );
 }

@@ -12,11 +12,11 @@ import firebase from "firebase/app";
 import { withRouter, Redirect } from "react-router";
 import Box from '@material-ui/core/Box';
 import Listing from './components/Listing';
-import AddLogDialog from '../pages/components/dialogs/FullScreenDialog';
-import PinnedSubheaderList from './components/Listing_2';
+import AddLogDialog from './components/dialogs/DialogAddNote.js';
 import Profile from './components/profile/index';
 import OnWorking from './components/imgs/Work_in_progress_svg.png';
 import { Container } from '@material-ui/core';
+import ParticlesBg from 'particles-bg';
 
 
 function TabPanel(props) {

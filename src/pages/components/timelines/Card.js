@@ -3,12 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import AlignItemsList from './AlignItemsList';
 import Divider from '@material-ui/core/Divider';
-import Note from "../note/Note";
-import SingleNote from "../note/SingleNote";
+import Notes from "../note/Notes";
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -37,9 +34,6 @@ const useStyles = makeStyles({
   },
   day:{
       fontSize:"-webkit-xxx-large",
-    //   border: '1px solid #a7e0aa',
-    //   borderWidth:'thick',
-    //   borderRadius:'10px',
       height:'max-content',
       width:'100px'
   }
@@ -47,43 +41,23 @@ const useStyles = makeStyles({
 
 export default function SimpleCard(props) {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
   const notes = [];
-  const day=(props.day).toUTCString;
-//   console.log(props.data)
-//   console.log(props.day)
   for(let i = 0; i < props.data.length; i++) {
-      console.log("From the data "+props.data[i].date)
-      console.log("From the day "+props.day)
       if(props.day+""===props.data[i].date+""){
           notes.push(props.data[i])
-          console.log("Hey ")
       }
   }
 
 
   return (
       <div>
-          <Divider style={{backgroundColor: "red", height:"2px"}}/>
+          {/* <Divider style={{backgroundColor: "red", height:"2px"}}/> */}
           <Card elevation={5} key={props.key} className={classes.root}>
     <Typography className={classes.day} color="textSecondary" gutterBottom>
           {props.day}
     </Typography>
       <CardContent>
-        {/* <Typography className={classes.title} color="textSecondary" gutterBottom>
-          {props.subject}
-        </Typography> */}
-        <SingleNote notes={notes} day={props.day} />
-        {/* <Typography variant="h5" component="h2">
-          be{bull}nev{bull}o{bull}lent
-        </Typography> */}
-        {/* <Typography className={classes.pos} color="textSecondary">
-          adjective
-        </Typography> */}
-        <Typography variant="body2" component="p">
-          {props.note}
-          <br />
-        </Typography>
+        <Notes notes={notes} day={props.day} />
         <CardActions>
       </CardActions>
       </CardContent>

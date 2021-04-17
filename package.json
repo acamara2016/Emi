@@ -17,6 +17,7 @@
     "express": "^4.17.1",
     "firebase": "^8.3.0",
     "mui-treasury": "^0.1.5-alpha.1",
+    "particles-bg": "^2.5.5",
     "react": "^17.0.1",
     "react-card-flip": "^1.1.0",
     "react-datepicker": "^3.7.0",
@@ -26,6 +27,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-swipeable-views": "^0.13.9",
+    "react-tsparticles": "^1.26.3",
     "web-vitals": "^1.1.0"
   },
   "scripts": {

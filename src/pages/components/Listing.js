@@ -4,10 +4,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import {firestore} from './firebase/firebase';
 import firebase from "firebase/app";
-import SimpleAccordion from "./Accordion";
-import Timelines from "./timelines/index";
 import SimpleCard from "./timelines/Card";
-import { Card } from "@material-ui/core";
 
 export default class Listing extends React.Component {
   state = {data:[]};
@@ -80,19 +77,6 @@ export default class Listing extends React.Component {
       },
     };
   
-
-    const addLog = (subject, page_number, feedback, time) => {
-      const user = firebase.auth().currentUser;
-      var curr = new Date();
-      return firestore.collection('users').doc(user.uid).collection('logs')
-          .add({
-              date: curr,
-              subject : subject,
-              page_number: page_number,
-              feedback : feedback,
-              time: time,
-          });
-    };
     const show_week = (week)=>{
       var n = 0;
         return (
@@ -100,11 +84,7 @@ export default class Listing extends React.Component {
             {week.map((index) => (
         <SimpleCard data={this.state.data} day={index} key={`section-${n++}}`}/>
       ))}
-
           </div>
-            // {this.state.data.map((element => element)=>(
-            //   <SimpleCard/>
-            // )}
         );
 
     }
@@ -117,12 +97,10 @@ export default class Listing extends React.Component {
     for (let i = 1; i <= 7; i++) {
       let first = curr.getDate() - curr.getDay() + i 
       let day = new Date(curr.setDate(first)).toISOString().slice(0, 10)
-      console.log(day.slice(-2)) //slicing the last 2 digit from 2020-03-15
+      //slicing the last 2 digit from 2020-03-15
       week.push(day.slice(-2))
     }
-    console.log(week)
     return (
-      // <Timelines data={this.state.data} week={week}/>
       show_week(week)
     );
   }

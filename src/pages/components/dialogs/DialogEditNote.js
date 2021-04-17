@@ -17,11 +17,6 @@ import EditLog from '../forms/EditNote';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
-/**
- * Author: Adama Camara
- * SearchFoodDialog is the file that function as a dialog that provide the user interface to 
- * search a product
- */
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -69,7 +64,7 @@ export default function DialogEditNote(props) {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Edit {props.subject}
+              Editing {props.subject}
             </Typography>
             <Button autoFocus color="inherit" onClick={handleClose}>
               Cancel
@@ -83,7 +78,7 @@ export default function DialogEditNote(props) {
               margin:"20px",
             }} elevation={3}>
                 <div>
-                <EditLog/>
+                <EditLog subject={props.subject} time={props.time} note={props.note} date={props.date} id={props.id}/>
                 </div>
             </Paper>
         </Container>

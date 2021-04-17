@@ -19,9 +19,13 @@ import Alert from '@material-ui/lab/Alert';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import EditIcon from '@material-ui/icons/Edit';
+import TimerIcon from '@material-ui/icons/Timer';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import background from './imgs/paper_@2X.png';
 import Paper from '@material-ui/core/Paper';
+import DialogDeleteNote from "./dialogs/DialogDeleteNote";
+import DialogEditNote from "./dialogs/DialogEditNote";
+import DialogAddNote from "./dialogs/DialogAddNote.js";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,6 +39,10 @@ const useStyles = makeStyles((theme) => ({
     secondaryHeading: {
       fontSize: theme.typography.pxToRem(15),
       color: theme.palette.text.secondary,
+      display: 'contents',
+    },
+    thirdTitle:{
+      marginLeft: '20px',
     },
 }));
 
@@ -84,12 +92,15 @@ export default function SimpleAccordion(props) {
   
 
     return (
-        <div style={{ margin: "10px",backgroundImage: `url(${background})`}}
+        <div style={{ 
+          margin: "10px",
+        //backgroundImage: `url(${background})`
+      }}
             className={classes.root}>
-            <Accordion style={{backgroundColor:"#F2DC99" }}
-                style={{
-                    backgroundColor: props.state=="false" ? '#F2DC99' : '#4caf51',
-                  }}
+            <Accordion
+                // style={{
+                //     backgroundColor: props.state=="false" ? '#fff' : '#fff',
+                //   }}
             >
                 <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -97,7 +108,9 @@ export default function SimpleAccordion(props) {
                 id="panel1a-header">
                 <Typography className={classes.heading}>{props.subject}</Typography>
                 <Typography className={classes.secondaryHeading}>
-                    {props.state=="false" ? "" : <CheckCircleOutlineIcon/>}
+                    <TimerIcon className={classes.thirdTitle}/>
+                    {props.time}min
+                    {/* {props.state=="false" ? "" : <CheckCircleOutlineIcon/>} */}
                 </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -106,11 +119,9 @@ export default function SimpleAccordion(props) {
                 </Typography>
                 </AccordionDetails>
                 <AccordionActions>
-                    <FormDialog id={props.id} time={props.time} subject={props.subject} note={props.note}/>
-                    <Fab onClick={handleClick} color="secondary" variant="extended">
-                        <CheckCircleOutlineIcon onClick={handleSubmit} className={classes.extendedIcon} />
-                        Submit
-                    </Fab>
+                    {/* <FormDialog id={props.id} time={props.time} subject={props.subject} note={props.note}/> */}
+                    <DialogEditNote subject={props.subject} time={props.time} note={props.note} date={props.date} id={props.id} />
+                    <DialogDeleteNote subject={props.subject} note={props.note} date={props.date} id={props.id}/>
                 </AccordionActions>
         </Accordion>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
@@ -130,7 +141,7 @@ function FormDialog(props) {
     const [time,
         setTime] = useState();
     const [note,
-        setNote] = useState();
+        setNote] = useState("");
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -158,7 +169,7 @@ function FormDialog(props) {
             .collection("logs")
             .doc(logID)
             .update({
-                "date": curr,
+                "last_change": curr,
                 "subject": name,
                 "note": note,
                 "page_number": "undefined",

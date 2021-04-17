@@ -14,15 +14,6 @@ import SaveIcon from '@material-ui/icons/Save';
 import FormLabel from '@material-ui/core/FormLabel';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import TimelapseIcon from '@material-ui/icons/Timelapse';
-import  { Redirect } from 'react-router-dom';
-import DatePicker from "react-datepicker";
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -101,16 +92,16 @@ const [note,
     console.log("adding-first state")
     e.preventDefault();
 }
-  const addLog = (subject, page_number, feedback, time, note, date) => {
+  const addLog = (name, page_number, feedback, timer, note, date) => {
     const user = firebase.auth().currentUser;
     var curr = new Date();
    firestore.collection('users').doc(user.uid).collection('logs')
         .add({
-            date: date,
-            subject : subject,
+            date: curr,
+            subject : name,
             page_number: page_number,
             feedback : feedback,
-            time: time,
+            time: 69,
             note: note,
             state: "false"
         }).then(handleClick)
@@ -120,27 +111,26 @@ const [note,
 
 
   return (
-    <form className={classes.container}
-    onSubmit={e => {
-      handleSubmit(e)
-    }}
+    <div className={classes.container}
+    // onSubmit={e => {
+    //   handleSubmit(e)
+    // }}
      className={classes.root} noValidate autoComplete="off">
       <div   style={{  fontSize: "xx-large",
           color: "white",
           textDecorationColor: "white" }}>
+
+      
+      </div>
+      
       <TextField
-        id="datetime-local"
-        label="When?"
-        variant="outlined"
-        type="datetime-local"
-        defaultValue={selectedDate}
-        onChange={handleDateChange}
-        className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-        <TextField
+          id="filled-multiline-static"
+          label="Subject"
+          variant="outlined"
+          value={name}
+          onChange={e => setName(e.target.value)}
+        />
+      <TextField
         id="time"
         label="How long did it take? (min)"
         type="number"
@@ -155,14 +145,6 @@ const [note,
           step: 10, // 5 min
         }}
     />
-      <TextField
-          id="filled-multiline-static"
-          label="Subject"
-          variant="outlined"
-          value={name}
-          onChange={e => setName(e.target.value)}
-        />
-      </div>
    
     
       <div>
@@ -179,15 +161,15 @@ const [note,
       <div style={{marginTop: "50px"}}>
       
     </div>
-        <Fab type="submit" style={{marginBottom:"30px"}} variant="extended">
+        <Fab onClick={handleSubmit} style={{marginBottom:"30px"}} variant="extended">
       <SaveIcon/>
       Save
     </Fab>
     <Snackbar open={open2} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success">
-          {name} added to your plan!
+          {name} created!
         </Alert>
       </Snackbar>
-    </form>
+    </div>
   );
 }
