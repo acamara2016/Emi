@@ -26,11 +26,11 @@ export default function Notes(props) {
 
   return (
     <div className={classes.root}>
-        <div style={{ flex: '1',overflowY:'scroll',}}>
+        <div style={{marginLeft:'20px',marginRight:'20px', paddingBottom:'10px'}} class="row">
           {props.notes.map((note) =>{
               if(props.notes.length>0){
                   return(
-                      <SimpleAccordion note={note.note} id={note.id} time={note.time} subject={note.subject} />
+                      <SimpleAccordion month={props.month} note={note.note} id={note.id} time={note.time} subject={note.subject} />
                       );
                   }
                       return(

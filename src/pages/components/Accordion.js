@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import AccordionActions from '@material-ui/core/AccordionActions';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {firestore} from './firebase/firebase';
@@ -16,12 +14,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import EditIcon from '@material-ui/icons/Edit';
 import TimerIcon from '@material-ui/icons/Timer';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import background from './imgs/paper_@2X.png';
 import Paper from '@material-ui/core/Paper';
 import DialogDeleteNote from "./dialogs/DialogDeleteNote";
 import DialogEditNote from "./dialogs/DialogEditNote";
@@ -29,7 +24,15 @@ import DialogAddNote from "./dialogs/DialogAddNote.js";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      width: '100%',
+     
+      textDecoration:'none',
+      color:'#000',
+      background:'#ffc',
+      display:'block',
+      height:'10em',
+      width:'10em',
+      padding:'1em',
+      boxShadow:'5px 5px 7px rgba(33,33,33,.7)'
     },
     heading: {
       fontSize: theme.typography.pxToRem(15),
@@ -40,6 +43,17 @@ const useStyles = makeStyles((theme) => ({
       fontSize: theme.typography.pxToRem(15),
       color: theme.palette.text.secondary,
       display: 'contents',
+    },
+    bullet: {
+      display: 'inline-block',
+      margin: '0 2px',
+      transform: 'scale(0.8)',
+    },
+    title: {
+      fontSize: 14,
+    },
+    pos: {
+      marginBottom: 12,
     },
     thirdTitle:{
       marginLeft: '20px',
@@ -92,44 +106,62 @@ export default function SimpleAccordion(props) {
   
 
     return (
-        <div style={{ 
-          margin: "10px",
-        //backgroundImage: `url(${background})`
-      }}
-            className={classes.root}>
-            <Accordion
-                // style={{
-                //     backgroundColor: props.state=="false" ? '#fff' : '#fff',
-                //   }}
-            >
-                <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header">
-                <Typography className={classes.heading}>{props.subject}</Typography>
-                <Typography className={classes.secondaryHeading}>
-                    <TimerIcon className={classes.thirdTitle}/>
-                    {props.time}min
-                    {/* {props.state=="false" ? "" : <CheckCircleOutlineIcon/>} */}
-                </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                <Typography>
-                    {props.note}
-                </Typography>
-                </AccordionDetails>
-                <AccordionActions>
-                    {/* <FormDialog id={props.id} time={props.time} subject={props.subject} note={props.note}/> */}
-                    <DialogEditNote subject={props.subject} time={props.time} note={props.note} date={props.date} id={props.id} />
-                    <DialogDeleteNote subject={props.subject} note={props.note} date={props.date} id={props.id}/>
-                </AccordionActions>
-        </Accordion>
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
-          Submitted!
-        </Alert>
-      </Snackbar>
-        </div>
+    //   <div >
+    //   <div class="card card-body">
+    //     <h4 class="card-title">{props.subject} {props.time}</h4>
+    //     <p class="card-text">{props.note}</p>
+    //     <div style={{display:'flex'}} class="flex-row">
+    //       <a class="card-link"><DialogEditNote class="card-link" subject={props.subject} time={props.time} note={props.note} date={props.date} id={props.id} /></a>
+    //       <a class="card-link"><DialogDeleteNote class="card-link" subject={props.subject} note={props.note} date={props.date} id={props.id}/></a>   
+    //     </div>
+    //   </div>
+    // </div>
+
+    <div style={{padding:'0px'}} class=" col">
+        <div class="card">
+               <h5 style={{backgroundColor:'#ff7043', fontSize:'x-large', fontWeight:'bold'}} class="card-header white-text">{props.subject}</h5>
+              <div style={{}} class="card-body">
+            
+                <p style={{fontSize:'large'}} class="card-text">{props.note}</p>
+                
+                <footer class="blockquote-footer">
+                  <div style={{display:'flex'}} class="flex-row">
+                    <a class="waves-effect waves-light"><DialogEditNote subject={props.subject} time={props.time} note={props.note} date={props.date} id={props.id} /></a>
+                    <a class="waves-effect waves-light"><DialogDeleteNote subject={props.subject} note={props.note} date={props.date} id={props.id}/></a>   
+                  </div>
+                </footer>
+              </div>
+              </div>
+            </div>
+
+      //   <Card elevation={5} className={classes.root} variant="outlined" >
+      //       <CardContent>
+      //       <Typography className={classes.title} color="textSecondary" gutterBottom>
+      //       {props.subject}
+      //   </Typography>
+      //           <Typography className={classes.secondaryHeading}>
+      //               <TimerIcon className={classes.thirdTitle}/>
+      //               {props.time}min
+      //               {/* {props.state=="false" ? "" : <CheckCircleOutlineIcon/>} */}
+      //           </Typography>
+      
+               
+      //           <Typography variant="body2" component="p">
+      //               {props.note}
+      //           </Typography>
+              
+      //           <CardActions>
+      //               {/* <FormDialog id={props.id} time={props.time} subject={props.subject} note={props.note}/> */}
+      //               <DialogEditNote subject={props.subject} time={props.time} note={props.note} date={props.date} id={props.id} />
+      //               <DialogDeleteNote subject={props.subject} note={props.note} date={props.date} id={props.id}/>
+      //           </CardActions>
+      //   </CardContent>
+      //   <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+      //   <Alert onClose={handleClose} severity="success">
+      //     Submitted!
+      //   </Alert>
+      // </Snackbar>
+      //   </Card>
     );
 }
 

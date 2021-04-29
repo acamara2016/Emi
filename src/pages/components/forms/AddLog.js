@@ -14,6 +14,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import FormLabel from '@material-ui/core/FormLabel';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import DatePicker from 'react-datepicker';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,18 +49,10 @@ function Alert(props) {
 
 export default function AddLog() {
   const classes = useStyles();
-  const [open,
-    setOpen] = React.useState(false);
-    const [open2, setOpen2] = React.useState(false);
-    const [selectedDate, setSelectedDate] = React.useState(new Date());
-    const [timer, setTimer] = React.useState(0);
-
-    const handleDateChange = (date) => {
-      setSelectedDate(date);
-    };
-    const handleTimerChange = (timer) => {
-      setTimer(timer);
-    };
+    const [open2, setOpen2] = React.useState();
+    const [timer, setTimer] = React.useState();
+    const [startDate, setStartDate] = useState(new Date());
+    
     const handleClick = () => {
       setOpen2(true);
     };
@@ -71,8 +64,7 @@ export default function AddLog() {
   
       setOpen2(false);
     };
-const [choreDesc,
-    setChoreDesc] = useState();
+
 const [name,
     setName] = useState();
 const [date,
@@ -82,22 +74,21 @@ const [time,
 const [note,
     setNote] = useState();
 
-  const [selectedValue, setSelectedValue] = React.useState('a');
-
-  const handleChange = (event) => {
-    setSelectedValue(event.target.value);
-  };
   const handleSubmit = (e) => {
-    addLog(name, "undefined", "undefined", timer, note, selectedDate)
+    addLog(name, "undefined", "undefined", timer, note, startDate.getDate(), startDate)
     console.log("adding-first state")
     e.preventDefault();
 }
-  const addLog = (name, page_number, feedback, timer, note, date) => {
+  const addLog = (name, page_number, feedback, timer, note, date, full) => {
     const user = firebase.auth().currentUser;
     var curr = new Date();
+
+    console.log(date)
+    console.log(full)
    firestore.collection('users').doc(user.uid).collection('logs')
         .add({
-            date: curr,
+            date: full,
+            
             subject : name,
             page_number: page_number,
             feedback : feedback,
@@ -111,61 +102,68 @@ const [note,
 
 
   return (
-    <div className={classes.container}
-    // onSubmit={e => {
-    //   handleSubmit(e)
-    // }}
-     className={classes.root} noValidate autoComplete="off">
-      <div   style={{  fontSize: "xx-large",
+    <div className={classes.container} noValidate autoComplete="off">
+     <div  
+      style={{  
+          fontSize: "xx-large",
           color: "white",
-          textDecorationColor: "white" }}>
+          textDecorationColor: "white" 
+          }}>
+            <div class="card mb-4 post-title-panel">
+              <div class="card-body">
+                <div class="md-form mt-1 mb-0">
+                  <input 
+                  type="text" 
+                  id="form1" 
+                  class="form-control" 
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="card mb-4">
+              <textarea 
+              class="md-textarea form-control"
+              row="3"
+              length="400"
+              style={{minHeight: '200px'}}
+              name="" 
+              value={note}
+              onChange={e => setNote(e.target.value)}
+              id="post_content">
 
-      
+              </textarea>
+            </div>
+            <div style={{display:'flow-root'}} class="card mb-4">
+              
+              <DatePicker selected={startDate} onChange={date => setStartDate(date)} />
+              <input
+              id="time"
+              label="How long did it take? (min)"
+              type="number"
+              variant="outlined"
+              defaultValue={time}
+              onChange={e => setTime(e.target.value)}
+              
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputProps={{
+                step: 10, // 5 min
+              }}
+          />
+            </div>
+        
+  
       </div>
-      
-      <TextField
-          id="filled-multiline-static"
-          label="Subject"
-          variant="outlined"
-          value={name}
-          onChange={e => setName(e.target.value)}
-        />
-      <TextField
-        id="time"
-        label="How long did it take? (min)"
-        type="number"
-        variant="outlined"
-        defaultValue={timer}
-        onChange={handleTimerChange}
-        className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
-        inputProps={{
-          step: 10, // 5 min
-        }}
-    />
    
-    
-      <div>
-      <TextField
-          id="filled-multiline-static"
-          label="Notes"
-          multiline
-          rows={6}
-          value={note}
-          onChange={e => setNote(e.target.value)}
-          variant="outlined"
-        />
-      </div>
-      <div style={{marginTop: "50px"}}>
-      
-    </div>
-        <Fab onClick={handleSubmit} style={{marginBottom:"30px"}} variant="extended">
+
+        <Fab color="primary" class="btn" onClick={handleSubmit} style={{marginBottom:"30px"}} variant="extended">
       <SaveIcon/>
       Save
     </Fab>
-    <Snackbar open={open2} autoHideDuration={6000} onClose={handleClose}>
+    <Snackbar style={{position: 'fixed',}} open={open2} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success">
           {name} created!
         </Alert>

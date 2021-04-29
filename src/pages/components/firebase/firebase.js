@@ -19,6 +19,7 @@ const config = firebase.initializeApp ({
   
   const auth = firebase.auth();
   export default auth;
+  
   export const firestore = firebase.firestore();
 
 export function getLogsByUser(){

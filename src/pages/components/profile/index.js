@@ -32,6 +32,7 @@ export default function Profile(props,{history}){
         form: {
           width: '100%', // Fix IE 11 issue.
           marginTop: theme.spacing(1),
+          display:'contents',
         },
         submit: {
           margin: theme.spacing(3, 0, 2),
@@ -66,7 +67,7 @@ export default function Profile(props,{history}){
                 }</h3>
         
           <Button
-            style={{ backgroundColor:"#f2dc99", fontSize:"20px", fontWeight:"bold", color:"#6b6552"}}
+            style={{ width: 'auto', fontSize:"20px", fontWeight:"bold", color:"white"}}
             type="submit"
             fullWidth
             variant="contained"

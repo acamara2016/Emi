@@ -13,6 +13,7 @@ import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import { Paper } from '@material-ui/core';
+import Logo from '../imgs/logo.png';
 import AddLog from '../forms/AddLog';
 
 /**
@@ -58,8 +59,12 @@ export default function AddLogDialog() {
   return (
     <div>
         <Fab color="primary" className={classes.fab} onClick={handleClickOpen} aria-label="Add food">
-            <AddIcon/>
+        <i class="fas fa-leaf" ></i>
+       
         </Fab>
+        {/* <a className={classes.fab} onClick={handleClickOpen} aria-label="Add food" class="btn-floating btn-secondary waves-effect waves-light">
+          <i class="fas fa-leaf" ></i>
+        </a>  */}
       <Dialog fullScreen open={open} onClose-={handleClose} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
           <Toolbar>
@@ -75,15 +80,15 @@ export default function AddLogDialog() {
           </Toolbar>
         </AppBar>
         <Container style={{ padding:"30px" }} maxWidth="sm">
-            <Paper style={{ 
+            <div style={{ 
               textAlign: "center",
-              paddingTop:"30px", 
-              margin:"20px",
+              // paddingTop:"30px", 
+              // margin:"20px",
             }} elevation={3}>
                 <div>
                 <AddLog/>
                 </div>
-            </Paper>
+            </div>
         </Container>
 
         

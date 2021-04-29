@@ -143,13 +143,37 @@ const updateLog = (id, subject, page_number, feedback, time, note, date) => {
 
   return (
     <div className={classes.container}
-    onSubmit={e => {
-      handleSubmit(e)
-    }}
-     className={classes.root} noValidate autoComplete="off">
-      <div   style={{  fontSize: "xx-large",
+    onSubmit={e => {handleSubmit(e)}} className={classes.root} noValidate autoComplete="off">
+      <div  style={{  fontSize: "xx-large",
           color: "white",
           textDecorationColor: "white" }}>
+            <div class="card mb-4 post-title-panel">
+              <div class="card-body">
+                <div class="md-form mt-1 mb-0">
+                  <input 
+                  type="text" 
+                  id="form1" 
+                  class="form-control" 
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  />
+                  
+                </div>
+              </div>
+            </div>
+            <div class="card mb-4">
+              <textarea 
+              class="md-textarea form-control"
+              row="3"
+              length="400"
+              style={{minHeight: '200px'}}
+              name="" 
+              value={note}
+              onChange={e => setNote(e.target.value)}
+              id="post_content">
+
+              </textarea>
+            </div>
       <TextField
         id="datetime-local"
         label="When?"
@@ -177,37 +201,19 @@ const updateLog = (id, subject, page_number, feedback, time, note, date) => {
           step: 10, // 5 min
         }}
     />
-      <TextField
-          id="filled-multiline-static"
-          label="Subject"
-          variant="outlined"
-          value={name}
-          onChange={e => setName(e.target.value)}
-        />
+    <div>
+      <Fab color="primary" class="btn" onClick={handleSubmit} style={{marginBottom:"30px"}} variant="extended">
+        <SaveIcon/>
+        セーブ
+      </Fab>
+    </div>
+  
       </div>
    
     
-      <div>
-      <TextField
-          id="filled-multiline-static"
-          label="Notes"
-          multiline
-          rows={6}
-          value={note}
-          onChange={e => setNote(e.target.value)}
-          variant="outlined"
-        />
-      </div>
-      <div style={{marginTop: "50px"}}>
-      
-    </div>
-        <Fab onClick={handleSubmit} style={{marginBottom:"30px"}} variant="extended">
-      <SaveIcon/>
-      Save
-    </Fab>
     <Snackbar open={open2} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success">
-          {name} updated!
+          {name} 更新しました!
         </Alert>
       </Snackbar>
     </div>

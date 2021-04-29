@@ -10,10 +10,16 @@
       content="Web site created using create-react-app"
     />
     <link rel="apple-touch-icon" href="./logo.png" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href="./css/mdb.min.css">
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
+    <link href="https://fonts.googleapis.com/css2?family=Reenie+Beanie&display=swap" rel="stylesheet">
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -35,6 +41,9 @@
       .particles-bg-canvas-self{
         position: fixed;
       }
+      .PrivateTabIndicator-root-12{
+        height: 5px;
+      }
     </style>
   </head>
   <body>
@@ -51,5 +60,52 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <!-- Bootstrap core JavaScript -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+
+    <script type="text/javascript" src="./js/bootstrap.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="./js/mdb.min.js"></script>
+    <!-- TinyMCE -->
+    <script type="text/javascript" src="./js/vendor/tinymce/tinymce.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="./js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+  
+    <!-- Custom scripts -->
+    <script>
+  
+      // SideNav Initialization
+      $(".button-collapse").sideNav();
+  
+      var container = document.querySelector('.custom-scrollbar');
+      var ps = new PerfectScrollbar(container, {
+        wheelSpeed: 2,
+        wheelPropagation: true,
+        minScrollbarLength: 20
+      });
+  
+      // TinyMCE Initialization
+      tinymce.init({ selector:'#post_content', menubar: false, height : "294" });
+  
+    </script>
+     <script>
+      // SideNav Initialization
+      $(".button-collapse").sideNav();
+  
+      var container = document.querySelector('.custom-scrollbar');
+      var ps = new PerfectScrollbar(container, {
+        wheelSpeed: 2,
+        wheelPropagation: true,
+        minScrollbarLength: 20
+      });
+  
+      // Data Picker Initialization
+      $('.datepicker').pickadate();
+  
+    </script>
+  
   </body>
 </html>

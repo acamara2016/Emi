@@ -1,12 +1,19 @@
 .App {
   text-align: center;
 }
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
+.body{
+  position: fixed;
+  background-image: url("./pages/components/imgs/chalkboard_small.jpg") 
+}
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
-
+body {
+  font-family: 'Josefin Sans', cursive;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

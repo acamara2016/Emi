@@ -54,7 +54,7 @@ export default function DialogEditNote(props) {
 
   return (
     <div>
-          <IconButton onClick={handleClickOpen} edge="end" aria-label="comments">
+          <IconButton onClick={handleClickOpen}aria-label="comments">
                 <EditIcon/>
         </IconButton>
       <Dialog fullScreen open={open} onClose-={handleClose} TransitionComponent={Transition}>
@@ -63,24 +63,27 @@ export default function DialogEditNote(props) {
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
               <CloseIcon />
             </IconButton>
+
+
             <Typography variant="h6" className={classes.title}>
-              Editing {props.subject}
+              編集 {props.subject}
             </Typography>
             <Button autoFocus color="inherit" onClick={handleClose}>
-              Cancel
+            キャンセル
             </Button>
           </Toolbar>
         </AppBar>
         <Container style={{ padding:"30px" }} maxWidth="sm">
-            <Paper style={{ 
-              textAlign: "center",
-              paddingTop:"30px", 
-              margin:"20px",
+
+            <div style={{ 
+              // textAlign: "center",
+              // paddingTop:"30px", 
+              // margin:"20px",
             }} elevation={3}>
                 <div>
                 <EditLog subject={props.subject} time={props.time} note={props.note} date={props.date} id={props.id}/>
                 </div>
-            </Paper>
+            </div>
         </Container>
 
         
